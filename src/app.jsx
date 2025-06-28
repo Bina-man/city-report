@@ -78,118 +78,6 @@ const subcities = [
     area: 122.0,
     projects: 35,
     efficiency: 96
-  },
-  { 
-    id: 4, 
-    name: 'Lideta', 
-    progress: 78, 
-    reports: 11, 
-    status: 'good', 
-    mayor: 'Almaz Worku', 
-    population: 210000,
-    budget: 1800000,
-    budgetUsed: 1350000,
-    area: 35.4,
-    projects: 18,
-    efficiency: 82
-  },
-  { 
-    id: 5, 
-    name: 'Arada', 
-    progress: 85, 
-    reports: 14, 
-    status: 'excellent', 
-    mayor: 'Tesfaye Bekele', 
-    population: 185000,
-    budget: 1600000,
-    budgetUsed: 1280000,
-    area: 29.8,
-    projects: 21,
-    efficiency: 88
-  },
-  { 
-    id: 6, 
-    name: 'Nifassilk Lafto', 
-    progress: 91, 
-    reports: 16, 
-    status: 'excellent', 
-    mayor: 'Hanan Mohamed', 
-    population: 420000,
-    budget: 2900000,
-    budgetUsed: 2465000,
-    area: 68.7,
-    projects: 32,
-    efficiency: 93
-  },
-  { 
-    id: 7, 
-    name: 'Lemi Kura', 
-    progress: 73, 
-    reports: 9, 
-    status: 'good', 
-    mayor: 'Girma Haile', 
-    population: 290000,
-    budget: 2100000,
-    budgetUsed: 1470000,
-    area: 52.3,
-    projects: 19,
-    efficiency: 79
-  },
-  { 
-    id: 8, 
-    name: 'Gulele', 
-    progress: 89, 
-    reports: 12, 
-    status: 'excellent', 
-    mayor: 'Rahel Getachew', 
-    population: 265000,
-    budget: 1950000,
-    budgetUsed: 1658000,
-    area: 46.9,
-    projects: 24,
-    efficiency: 91
-  },
-  { 
-    id: 9, 
-    name: 'Addis Ketema', 
-    progress: 69, 
-    reports: 8, 
-    status: 'needs-attention', 
-    mayor: 'Solomon Desta', 
-    population: 175000,
-    budget: 1400000,
-    budgetUsed: 924000,
-    area: 22.1,
-    projects: 15,
-    efficiency: 74
-  },
-  { 
-    id: 10, 
-    name: 'Kirkos', 
-    progress: 82, 
-    reports: 10, 
-    status: 'good', 
-    mayor: 'Meron Kassaye', 
-    population: 230000,
-    budget: 1750000,
-    budgetUsed: 1365000,
-    area: 31.2,
-    projects: 20,
-    efficiency: 85
-  },
-  { 
-    id: 11, 
-    name: 'Akaki Kality', 
-    progress: 76, 
-    reports: 12, 
-    status: 'good', 
-    mayor: 'Getnet Mulugeta', 
-    population: 350000,
-    budget: 2400000,
-    budgetUsed: 1800000,
-    area: 58.6,
-    projects: 26,
-    efficiency: 81
   }
 ];
 
@@ -738,103 +626,1210 @@ const SubcityMayorDashboard = ({ user }) => {
   );
 };
 
-const Analytics = () => (
-  <div className="bg-gradient-to-br from-purple-50 to-pink-50 min-h-screen">
-    <div className="p-4 sm:p-6 space-y-6">
-      <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-6 sm:p-8 text-white shadow-lg">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-2">Advanced Analytics</h2>
-        <p className="text-purple-100 text-sm sm:text-lg">AI-powered insights and performance analysis</p>
-      </div>
-      
-      <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-slate-100">
-        <h3 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 sm:mb-6">Performance Overview</h3>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          <div className="text-center p-4 sm:p-6 bg-emerald-50 rounded-xl">
-            <TrendingUp className="w-8 h-8 sm:w-12 sm:h-12 text-emerald-600 mx-auto mb-3 sm:mb-4" />
-            <p className="text-2xl sm:text-3xl font-bold text-emerald-600">94%</p>
-            <p className="text-slate-600 text-sm sm:text-base">Overall Efficiency</p>
-          </div>
-          <div className="text-center p-4 sm:p-6 bg-blue-50 rounded-xl">
-            <Target className="w-8 h-8 sm:w-12 sm:h-12 text-blue-600 mx-auto mb-3 sm:mb-4" />
-            <p className="text-2xl sm:text-3xl font-bold text-blue-600">87%</p>
-            <p className="text-slate-600 text-sm sm:text-base">Goal Achievement</p>
-          </div>
-          <div className="text-center p-4 sm:p-6 bg-purple-50 rounded-xl">
-            <Activity className="w-8 h-8 sm:w-12 sm:h-12 text-purple-600 mx-auto mb-3 sm:mb-4" />
-            <p className="text-2xl sm:text-3xl font-bold text-purple-600">12.5k</p>
-            <p className="text-slate-600 text-sm sm:text-base">Trees/Month Avg</p>
-          </div>
-          <div className="text-center p-4 sm:p-6 bg-orange-50 rounded-xl">
-            <Award className="w-8 h-8 sm:w-12 sm:h-12 text-orange-600 mx-auto mb-3 sm:mb-4" />
-            <p className="text-2xl sm:text-3xl font-bold text-orange-600">A+</p>
-            <p className="text-slate-600 text-sm sm:text-base">City Rating</p>
+const Analytics = () => {
+  const [selectedYear, setSelectedYear] = useState('2025');
+  const [selectedSubcity, setSelectedSubcity] = useState('Kolfe Keraniyo');
+  const [activeView, setActiveView] = useState('overview'); // 'overview', 'plants', 'temporal', 'projections'
+
+  // Subcity-specific plant species data 
+  const subcityPlantData = {
+    'Kolfe Keraniyo': {
+      plantSpecies: [
+        { name: 'ሰደር (Seder)', scientificName: 'Juniperus procera', type: 'Indigenous', unitCost: 1500, plantedCount: 850, survivalRate: 94, icon: '🌲', category: 'forest' },
+        { name: 'ባህር ዛፍ (Eucalyptus)', scientificName: 'Eucalyptus globulus', type: 'Fast Growing', unitCost: 800, plantedCount: 1200, survivalRate: 96, icon: '🌳', category: 'utility' },
+        { name: 'አካሽያ (Acacia)', scientificName: 'Acacia melanoxylon', type: 'Nitrogen Fixing', unitCost: 950, plantedCount: 680, survivalRate: 93, icon: '🌿', category: 'soil' },
+        { name: 'ጃካራንዳ (Jacaranda)', scientificName: 'Jacaranda mimosifolia', type: 'Ornamental', unitCost: 2200, plantedCount: 320, survivalRate: 91, icon: '🌸', category: 'ornamental' }
+      ],
+      yearlyData: {
+        '2023': { treesPlanted: 2800, investment: 3200000, areasCompleted: 12, survivalRate: 89 },
+        '2024': { treesPlanted: 2950, investment: 3450000, areasCompleted: 15, survivalRate: 92 },
+        '2025': { treesPlanted: 3050, investment: 3650000, areasCompleted: 18, survivalRate: 94 }
+      },
+      matureAreas: [
+        { name: 'Kolfe Industrial Zone Green Belt', maturityLevel: 88, nextAction: 'Selective planting', savings: 850000 },
+        { name: 'Kolfe Community Forest', maturityLevel: 92, nextAction: 'Maintenance only', savings: 1200000 }
+      ],
+      projections: {
+        '2026': { target: 3200, expected: 3150, confidence: 91 },
+        '2027': { target: 3400, expected: 3300, confidence: 89 },
+        '2028': { target: 3600, expected: 3480, confidence: 87 },
+        '2029': { target: 3800, expected: 3650, confidence: 85 },
+        '2030': { target: 4000, expected: 3820, confidence: 83 }
+      }
+    },
+    'Yeka': {
+      plantSpecies: [
+        { name: 'ዘይቶን (Olive)', scientificName: 'Olea europaea', type: 'Fruit Tree', unitCost: 1200, plantedCount: 750, survivalRate: 89, icon: '🫒', category: 'fruit' },
+        { name: 'ማንጎ (Mango)', scientificName: 'Mangifera indica', type: 'Fruit Tree', unitCost: 1800, plantedCount: 480, survivalRate: 87, icon: '🥭', category: 'fruit' },
+        { name: 'ሰደር (Seder)', scientificName: 'Juniperus procera', type: 'Indigenous', unitCost: 1500, plantedCount: 920, survivalRate: 95, icon: '🌲', category: 'forest' },
+        { name: 'ጃካራንዳ (Jacaranda)', scientificName: 'Jacaranda mimosifolia', type: 'Ornamental', unitCost: 2200, plantedCount: 650, survivalRate: 90, icon: '🌸', category: 'ornamental' }
+      ],
+      yearlyData: {
+        '2023': { treesPlanted: 2650, investment: 4100000, areasCompleted: 14, survivalRate: 87 },
+        '2024': { treesPlanted: 2750, investment: 4350000, areasCompleted: 16, survivalRate: 89 },
+        '2025': { treesPlanted: 2800, investment: 4580000, areasCompleted: 19, survivalRate: 90 }
+      },
+      matureAreas: [
+        { name: 'Friendship Park Extension', maturityLevel: 85, nextAction: 'Gap filling only', savings: 950000 },
+        { name: 'Yeka Forest Reserve', maturityLevel: 90, nextAction: 'Species diversification', savings: 1350000 }
+      ],
+      projections: {
+        '2026': { target: 3000, expected: 2950, confidence: 89 },
+        '2027': { target: 3200, expected: 3100, confidence: 87 },
+        '2028': { target: 3400, expected: 3250, confidence: 85 },
+        '2029': { target: 3600, expected: 3400, confidence: 82 },
+        '2030': { target: 3800, expected: 3550, confidence: 80 }
+      }
+    },
+    'Bole': {
+      plantSpecies: [
+        { name: 'ጃካራንዳ (Jacaranda)', scientificName: 'Jacaranda mimosifolia', type: 'Ornamental', unitCost: 2200, plantedCount: 1250, survivalRate: 92, icon: '🌸', category: 'ornamental' },
+        { name: 'ሰደር (Seder)', scientificName: 'Juniperus procera', type: 'Indigenous', unitCost: 1500, plantedCount: 890, survivalRate: 94, icon: '🌲', category: 'forest' },
+        { name: 'ባህር ዛፍ (Eucalyptus)', scientificName: 'Eucalyptus globulus', type: 'Fast Growing', unitCost: 800, plantedCount: 1450, survivalRate: 97, icon: '🌳', category: 'utility' },
+        { name: 'ነብር (Fig)', scientificName: 'Ficus sycomorus', type: 'Indigenous', unitCost: 1400, plantedCount: 420, survivalRate: 93, icon: '🌳', category: 'cultural' }
+      ],
+      yearlyData: {
+        '2023': { treesPlanted: 3800, investment: 5200000, areasCompleted: 16, survivalRate: 91 },
+        '2024': { treesPlanted: 3950, investment: 5650000, areasCompleted: 18, survivalRate: 93 },
+        '2025': { treesPlanted: 4010, investment: 5850000, areasCompleted: 21, survivalRate: 94 }
+      },
+      matureAreas: [
+        { name: 'Bole Airport Green Corridor', maturityLevel: 94, nextAction: 'Maintenance focus', savings: 1850000 },
+        { name: 'Sheger Park Extension', maturityLevel: 92, nextAction: 'Species diversification', savings: 2200000 },
+        { name: 'Bole Business District Trees', maturityLevel: 87, nextAction: 'Selective replacement', savings: 1650000 }
+      ],
+      projections: {
+        '2026': { target: 4300, expected: 4200, confidence: 92 },
+        '2027': { target: 4600, expected: 4450, confidence: 90 },
+        '2028': { target: 4900, expected: 4700, confidence: 88 },
+        '2029': { target: 5200, expected: 4950, confidence: 86 },
+        '2030': { target: 5500, expected: 5200, confidence: 84 }
+      }
+    },
+    'Lideta': {
+      plantSpecies: [
+        { name: 'አካሽያ (Acacia)', scientificName: 'Acacia melanoxylon', type: 'Nitrogen Fixing', unitCost: 950, plantedCount: 780, survivalRate: 95, icon: '🌿', category: 'soil' },
+        { name: 'ባህር ዛፍ (Eucalyptus)', scientificName: 'Eucalyptus globulus', type: 'Fast Growing', unitCost: 800, plantedCount: 1100, survivalRate: 96, icon: '🌳', category: 'utility' },
+        { name: 'ሰደር (Seder)', scientificName: 'Juniperus procera', type: 'Indigenous', unitCost: 1500, plantedCount: 650, survivalRate: 93, icon: '🌲', category: 'forest' },
+        { name: 'ዘይቶን (Olive)', scientificName: 'Olea europaea', type: 'Fruit Tree', unitCost: 1200, plantedCount: 480, survivalRate: 88, icon: '🫒', category: 'fruit' }
+      ],
+      yearlyData: {
+        '2023': { treesPlanted: 2850, investment: 3100000, areasCompleted: 11, survivalRate: 90 },
+        '2024': { treesPlanted: 2950, investment: 3350000, areasCompleted: 13, survivalRate: 92 },
+        '2025': { treesPlanted: 3010, investment: 3500000, areasCompleted: 15, survivalRate: 93 }
+      },
+      matureAreas: [
+        { name: 'Lideta Market Area Trees', maturityLevel: 86, nextAction: 'Gap filling', savings: 750000 },
+        { name: 'Red Terror Memorial Trees', maturityLevel: 91, nextAction: 'Maintenance only', savings: 1100000 }
+      ],
+      projections: {
+        '2026': { target: 3200, expected: 3100, confidence: 90 },
+        '2027': { target: 3400, expected: 3250, confidence: 88 },
+        '2028': { target: 3600, expected: 3400, confidence: 86 },
+        '2029': { target: 3800, expected: 3550, confidence: 84 },
+        '2030': { target: 4000, expected: 3700, confidence: 82 }
+      }
+    },
+    'Arada': {
+      plantSpecies: [
+        { name: 'ጃካራንዳ (Jacaranda)', scientificName: 'Jacaranda mimosifolia', type: 'Ornamental', unitCost: 2200, plantedCount: 950, survivalRate: 91, icon: '🌸', category: 'ornamental' },
+        { name: 'ነብር (Fig)', scientificName: 'Ficus sycomorus', type: 'Indigenous', unitCost: 1400, plantedCount: 680, survivalRate: 94, icon: '🌳', category: 'cultural' },
+        { name: 'ሰደር (Seder)', scientificName: 'Juniperus procera', type: 'Indigenous', unitCost: 1500, plantedCount: 720, survivalRate: 92, icon: '🌲', category: 'forest' },
+        { name: 'ማንጎ (Mango)', scientificName: 'Mangifera indica', type: 'Fruit Tree', unitCost: 1800, plantedCount: 380, survivalRate: 86, icon: '🥭', category: 'fruit' }
+      ],
+      yearlyData: {
+        '2023': { treesPlanted: 2600, investment: 4200000, areasCompleted: 13, survivalRate: 88 },
+        '2024': { treesPlanted: 2700, investment: 4450000, areasCompleted: 15, survivalRate: 90 },
+        '2025': { treesPlanted: 2730, investment: 4600000, areasCompleted: 17, survivalRate: 91 }
+      },
+      matureAreas: [
+        { name: 'Unity Park Surroundings', maturityLevel: 95, nextAction: 'Maintenance only', savings: 2500000 },
+        { name: 'Piazza Historic Trees', maturityLevel: 89, nextAction: 'Heritage preservation', savings: 1400000 }
+      ],
+      projections: {
+        '2026': { target: 2950, expected: 2850, confidence: 89 },
+        '2027': { target: 3150, expected: 3000, confidence: 87 },
+        '2028': { target: 3350, expected: 3150, confidence: 85 },
+        '2029': { target: 3550, expected: 3300, confidence: 83 },
+        '2030': { target: 3750, expected: 3450, confidence: 81 }
+      }
+    }
+  };
+
+  // Add similar data for other subcities
+  const addOtherSubcitiesData = () => {
+    const otherSubcities = ['Nifassilk Lafto', 'Lemi Kura', 'Gulele', 'Addis Ketema', 'Kirkos', 'Akaki Kality'];
+    
+    otherSubcities.forEach(subcity => {
+      if (!subcityPlantData[subcity]) {
+        subcityPlantData[subcity] = {
+          plantSpecies: [
+            { name: 'ሰደር (Seder)', scientificName: 'Juniperus procera', type: 'Indigenous', unitCost: 1500, plantedCount: Math.floor(Math.random() * 800) + 400, survivalRate: Math.floor(Math.random() * 10) + 88, icon: '🌲', category: 'forest' },
+            { name: 'ባህር ዛፍ (Eucalyptus)', scientificName: 'Eucalyptus globulus', type: 'Fast Growing', unitCost: 800, plantedCount: Math.floor(Math.random() * 1000) + 600, survivalRate: Math.floor(Math.random() * 8) + 90, icon: '🌳', category: 'utility' },
+            { name: 'አካሽያ (Acacia)', scientificName: 'Acacia melanoxylon', type: 'Nitrogen Fixing', unitCost: 950, plantedCount: Math.floor(Math.random() * 600) + 300, survivalRate: Math.floor(Math.random() * 12) + 85, icon: '🌿', category: 'soil' },
+            { name: 'ጃካራንዳ (Jacaranda)', scientificName: 'Jacaranda mimosifolia', type: 'Ornamental', unitCost: 2200, plantedCount: Math.floor(Math.random() * 400) + 200, survivalRate: Math.floor(Math.random() * 15) + 82, icon: '🌸', category: 'ornamental' }
+          ],
+          yearlyData: {
+            '2023': { treesPlanted: Math.floor(Math.random() * 1000) + 2000, investment: Math.floor(Math.random() * 2000000) + 3000000, areasCompleted: Math.floor(Math.random() * 8) + 8, survivalRate: Math.floor(Math.random() * 12) + 85 },
+            '2024': { treesPlanted: Math.floor(Math.random() * 1000) + 2200, investment: Math.floor(Math.random() * 2000000) + 3500000, areasCompleted: Math.floor(Math.random() * 8) + 10, survivalRate: Math.floor(Math.random() * 12) + 87 },
+            '2025': { treesPlanted: Math.floor(Math.random() * 1000) + 2400, investment: Math.floor(Math.random() * 2000000) + 4000000, areasCompleted: Math.floor(Math.random() * 8) + 12, survivalRate: Math.floor(Math.random() * 12) + 89 }
+          },
+          matureAreas: [
+            { name: `${subcity} Main Boulevard`, maturityLevel: Math.floor(Math.random() * 15) + 80, nextAction: 'Maintenance focus', savings: Math.floor(Math.random() * 1000000) + 800000 },
+            { name: `${subcity} Community Park`, maturityLevel: Math.floor(Math.random() * 20) + 75, nextAction: 'Selective planting', savings: Math.floor(Math.random() * 800000) + 600000 }
+          ],
+          projections: {
+            '2026': { target: Math.floor(Math.random() * 800) + 2800, expected: Math.floor(Math.random() * 700) + 2700, confidence: Math.floor(Math.random() * 15) + 80 },
+            '2027': { target: Math.floor(Math.random() * 800) + 3000, expected: Math.floor(Math.random() * 700) + 2900, confidence: Math.floor(Math.random() * 15) + 78 },
+            '2028': { target: Math.floor(Math.random() * 800) + 3200, expected: Math.floor(Math.random() * 700) + 3100, confidence: Math.floor(Math.random() * 15) + 76 },
+            '2029': { target: Math.floor(Math.random() * 800) + 3400, expected: Math.floor(Math.random() * 700) + 3300, confidence: Math.floor(Math.random() * 15) + 74 },
+            '2030': { target: Math.floor(Math.random() * 800) + 3600, expected: Math.floor(Math.random() * 700) + 3500, confidence: Math.floor(Math.random() * 15) + 72 }
+          }
+        };
+      }
+    });
+  };
+
+  addOtherSubcitiesData();
+
+  // Get current subcity data
+  const getCurrentSubcityData = () => {
+    return subcityPlantData[selectedSubcity] || subcityPlantData['Kolfe Keraniyo'];
+  };
+
+  const currentData = getCurrentSubcityData();
+  // Plant species data based on Ethiopian vegetation (inspired by the document)
+  const plantSpecies = [
+    {
+      id: 1,
+      name: 'ሰደር (Seder)',
+      scientificName: 'Juniperus procera',
+      type: 'Indigenous Tree',
+      unitCost: 1500,
+      plantedCount: 4250,
+      survivalRate: 94,
+      maturityPeriod: '8-12 years',
+      benefits: ['Soil conservation', 'Timber', 'Traditional medicine'],
+      icon: '🌲',
+      category: 'forest'
+    },
+    {
+      id: 2,
+      name: 'ዘይቶን (Zeitoun)', 
+      scientificName: 'Olea europaea',
+      type: 'Fruit Tree',
+      unitCost: 1200,
+      plantedCount: 2800,
+      survivalRate: 89,
+      maturityPeriod: '4-6 years',
+      benefits: ['Fruit production', 'Oil extraction', 'Erosion control'],
+      icon: '🫒',
+      category: 'fruit'
+    },
+    {
+      id: 3,
+      name: 'ባህር ዛፍ (Bahir Zaf)',
+      scientificName: 'Eucalyptus globulus',
+      type: 'Fast Growing',
+      unitCost: 800,
+      plantedCount: 8900,
+      survivalRate: 96,
+      maturityPeriod: '3-5 years',
+      benefits: ['Quick growth', 'Windbreak', 'Construction material'],
+      icon: '🌳',
+      category: 'utility'
+    },
+    {
+      id: 4,
+      name: 'ጃካራንዳ (Jakaranda)',
+      scientificName: 'Jacaranda mimosifolia',
+      type: 'Ornamental',
+      unitCost: 2200,
+      plantedCount: 1850,
+      survivalRate: 91,
+      maturityPeriod: '5-8 years',
+      benefits: ['Aesthetic value', 'Shade', 'Urban beautification'],
+      icon: '🌸',
+      category: 'ornamental'
+    },
+    {
+      id: 5,
+      name: 'አካሽያ (Akashiya)',
+      scientificName: 'Acacia melanoxylon',
+      type: 'Nitrogen Fixing',
+      unitCost: 950,
+      plantedCount: 3400,
+      survivalRate: 93,
+      maturityPeriod: '3-4 years',
+      benefits: ['Soil enrichment', 'Fodder', 'Honey production'],
+      icon: '🌿',
+      category: 'soil'
+    },
+    {
+      id: 6,
+      name: 'ማንጎ (Mango)',
+      scientificName: 'Mangifera indica',
+      type: 'Fruit Tree',
+      unitCost: 1800,
+      plantedCount: 2100,
+      survivalRate: 87,
+      maturityPeriod: '5-7 years',
+      benefits: ['Fruit production', 'Shade', 'Income generation'],
+      icon: '🥭',
+      category: 'fruit'
+    },
+    {
+      id: 7,
+      name: 'ነብር (Nebri)',
+      scientificName: 'Ficus sycomorus',
+      type: 'Indigenous Tree',
+      unitCost: 1400,
+      plantedCount: 1600,
+      survivalRate: 92,
+      maturityPeriod: '6-10 years',
+      benefits: ['Cultural significance', 'Large shade', 'Wildlife habitat'],
+      icon: '🌳',
+      category: 'cultural'
+    }
+  ];
+
+  // Yearly development data per subcity
+  const yearlyData = {
+    '2023': {
+      totalTrees: 18500,
+      totalCost: 28750000,
+      completedAreas: 145,
+      developedAreas: ['Megenagna', 'Piassa', 'Mexico'],
+      avgSurvivalRate: 89
+    },
+    '2024': {
+      totalTrees: 22300,
+      totalCost: 34820000,
+      completedAreas: 198,
+      developedAreas: ['Bole Airport', 'CMC', 'Kazanchis', 'Gerji'],
+      avgSurvivalRate: 91
+    },
+    '2025': {
+      totalTrees: 24850,
+      totalCost: 39575000,
+      completedAreas: 267,
+      developedAreas: ['Tulu Dimtu', 'Sarbet', '22 Mazoria', 'Entoto'],
+      avgSurvivalRate: 93
+    }
+  };
+
+  // Generate subcity-specific yearly data
+  const getSubcityYearlyData = (subcityName, year) => {
+    const baseData = yearlyData[year];
+    const multiplier = subcities.find(s => s.name === subcityName)?.efficiency / 100 || 0.8;
+    
+    return {
+      treesPlanted: Math.round((baseData.totalTrees / subcities.length) * multiplier),
+      investment: Math.round((baseData.totalCost / subcities.length) * multiplier),
+      areasCompleted: Math.round((baseData.completedAreas / subcities.length) * multiplier),
+      survivalRate: Math.round(baseData.avgSurvivalRate * multiplier)
+    };
+  };
+
+  // Areas that have reached maturity and need minimal new trees
+  const matureAreas = [
+    { name: 'Unity Park', subcity: 'Arada', maturityLevel: 95, nextAction: 'Maintenance only', savings: 2500000 },
+    { name: 'Entoto Natural Park', subcity: 'Gulele', maturityLevel: 88, nextAction: 'Selective planting', savings: 1800000 },
+    { name: 'Sheger Park', subcity: 'Bole', maturityLevel: 92, nextAction: 'Species diversification', savings: 2200000 },
+    { name: 'Friendship Park', subcity: 'Yeka', maturityLevel: 85, nextAction: 'Gap filling only', savings: 1500000 },
+    { name: 'Meskel Square Green Belt', subcity: 'Kirkos', maturityLevel: 90, nextAction: 'Maintenance focus', savings: 1900000 }
+  ];
+
+  // Projections and targets
+  const projections = {
+    '2026': { target: 28000, expected: 26500, confidence: 89 },
+    '2027': { target: 32000, expected: 30800, confidence: 85 },
+    '2028': { target: 35000, expected: 34200, confidence: 82 },
+    '2029': { target: 38000, expected: 37100, confidence: 78 },
+    '2030': { target: 42000, expected: 40500, confidence: 75 }
+  };
+
+  const getTotalPlantCost = () => {
+    return plantSpecies.reduce((total, plant) => total + (plant.unitCost * plant.plantedCount), 0);
+  };
+
+  const getTotalTreesPlanted = () => {
+    return plantSpecies.reduce((total, plant) => total + plant.plantedCount, 0);
+  };
+
+  const getAverageSurvivalRate = () => {
+    return Math.round(plantSpecies.reduce((total, plant) => total + plant.survivalRate, 0) / plantSpecies.length);
+  };
+
+  return (
+    <div className="bg-gradient-to-br from-emerald-50 via-blue-50 to-purple-50 min-h-screen">
+      <div className="p-4 sm:p-6 space-y-6">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-emerald-600 via-blue-600 to-purple-600 rounded-2xl p-6 sm:p-8 text-white shadow-xl">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-bold mb-2">Advanced Environmental Analytics</h2>
+              <p className="text-emerald-100 text-sm sm:text-lg">Comprehensive analysis of tree planting initiatives across Addis Ababa</p>
+            </div>
+            <div className="hidden sm:block">
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                <BarChart3 className="w-10 h-10 text-white mb-2" />
+                <p className="text-xs text-emerald-200">Data Analytics</p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-);
 
-const Gallery = () => (
-  <div className="bg-gradient-to-br from-purple-50 to-pink-50 min-h-screen">
-    <div className="p-4 sm:p-6 space-y-6">
-      <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-6 sm:p-8 text-white shadow-lg">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-2">Project Gallery</h2>
-        <p className="text-purple-100 text-sm sm:text-lg">Visual documentation of environmental initiatives</p>
-      </div>
-
-      <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-slate-100">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 space-y-3 sm:space-y-0">
-          <h3 className="text-lg sm:text-xl font-bold text-slate-800">Photo Library</h3>
-          <div className="flex items-center space-x-3">
-            <div className="flex bg-slate-100 rounded-lg p-1">
-              <button className="p-2 rounded bg-white shadow-sm">
-                <Grid className="w-4 h-4" />
+        {/* Control Panel */}
+        <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between space-y-4 lg:space-y-0">
+            <div className="flex flex-wrap gap-2">
+              {[
+                { id: 'overview', label: 'Overview', icon: PieChart },
+                { id: 'plants', label: 'Plant Species', icon: TreePine },
+                { id: 'temporal', label: 'Yearly Analysis', icon: Calendar },
+                { id: 'projections', label: 'Projections', icon: TrendingUp }
+              ].map(view => (
+              <button
+                  key={view.id}
+                  onClick={() => setActiveView(view.id)}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all text-sm font-medium ${
+                    activeView === view.id 
+                      ? 'bg-emerald-100 text-emerald-700 border-2 border-emerald-300' 
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  }`}
+                >
+                  <view.icon className="w-4 h-4" />
+                  <span>{view.label}</span>
               </button>
+            ))}
+              </div>
+              
+              <div className="flex items-center space-x-3">
+                <select
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(e.target.value)}
+                className="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500"
+              >
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                </select>
+
+              <select
+                value={selectedSubcity}
+                onChange={(e) => setSelectedSubcity(e.target.value)}
+                className="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500"
+              >
+                <option value="all">All Subcities</option>
+                {subcities.map(subcity => (
+                  <option key={subcity.id} value={subcity.name}>{subcity.name}</option>
+                ))}
+              </select>
+                </div>
+              </div>
             </div>
-            <button className="bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2 text-sm sm:text-base">
-              <Upload className="w-4 h-4" />
-              <span className="hidden sm:inline">Upload Photos</span>
-              <span className="sm:hidden">Upload</span>
-            </button>
+
+        {/* Overview Section */}
+        {activeView === 'overview' && (
+          <div className="space-y-6">
+            {/* Key Metrics */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+              <div className="bg-white rounded-2xl p-6 shadow-lg border border-emerald-200">
+                          <div className="text-center">
+                  <TreePine className="w-12 h-12 text-emerald-600 mx-auto mb-4" />
+                  <p className="text-3xl font-bold text-emerald-600">{getTotalTreesPlanted().toLocaleString()}</p>
+                  <p className="text-slate-600 font-medium">Total Trees Planted</p>
+                  <p className="text-xs text-slate-500 mt-1">{selectedYear} Data</p>
+                          </div>
+                        </div>
+                        
+              <div className="bg-white rounded-2xl p-6 shadow-lg border border-blue-200">
+                <div className="text-center">
+                  <Award className="w-12 h-12 text-blue-600 mx-auto mb-4" />
+                  <p className="text-3xl font-bold text-blue-600">{(getTotalPlantCost() / 1000000).toFixed(1)}M</p>
+                  <p className="text-slate-600 font-medium">Total Investment</p>
+                  <p className="text-xs text-slate-500 mt-1">ETB Currency</p>
           </div>
         </div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {[1, 2, 3, 4, 5, 6].map(id => (
-            <div key={id} className="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden hover:shadow-xl transition-all group">
-              <div className="h-48 sm:h-64 bg-slate-200 relative overflow-hidden">
-                <div className="w-full h-full bg-gradient-to-br from-green-200 to-blue-200 flex items-center justify-center">
-                  <Camera className="w-12 h-12 sm:w-16 sm:h-16 text-slate-400" />
-                </div>
-                <div className="absolute top-3 right-3">
-                  <div className="px-2 py-1 rounded-full text-xs font-medium text-white bg-green-500">
-                    🌳
+
+              <div className="bg-white rounded-2xl p-6 shadow-lg border border-purple-200">
+                  <div className="text-center">
+                  <Target className="w-12 h-12 text-purple-600 mx-auto mb-4" />
+                  <p className="text-3xl font-bold text-purple-600">{getAverageSurvivalRate()}%</p>
+                  <p className="text-slate-600 font-medium">Avg Survival Rate</p>
+                  <p className="text-xs text-slate-500 mt-1">Across all species</p>
                   </div>
+                  </div>
+              
+              <div className="bg-white rounded-2xl p-6 shadow-lg border border-orange-200">
+            <div className="text-center">
+                  <CheckCircle className="w-12 h-12 text-orange-600 mx-auto mb-4" />
+                  <p className="text-3xl font-bold text-orange-600">{matureAreas.length}</p>
+                  <p className="text-slate-600 font-medium">Mature Areas</p>
+                  <p className="text-xs text-slate-500 mt-1">Reduced planting needed</p>
+            </div>
+          </div>
+        </div>
+
+            {/* Mature Areas - Money Saving Opportunities */}
+            <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-slate-100">
+              <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center">
+                <Zap className="w-6 h-6 text-green-600 mr-2" />
+                Mature Areas - Reduced Investment Needed
+              </h3>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  {matureAreas.map((area, index) => (
+                    <div key={index} className="p-4 bg-green-50 rounded-xl border border-green-200">
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="font-semibold text-slate-800">{area.name}</h4>
+                        <span className="text-sm font-medium text-green-600">{area.maturityLevel}% Mature</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm text-slate-600">
+                        <span>📍 {area.subcity}</span>
+                        <span>💰 {(area.savings / 1000000).toFixed(1)}M ETB Saved</span>
+                      </div>
+                      <p className="text-xs text-slate-500 mt-2">Next Action: {area.nextAction}</p>
+                      <div className="mt-2 bg-green-200 rounded-full h-2">
+                        <div 
+                          className="bg-green-500 h-2 rounded-full transition-all duration-500"
+                          style={{ width: `${area.maturityLevel}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              </div>
-              <div className="p-4">
-                <h4 className="font-semibold text-slate-800 mb-2 text-sm sm:text-base">Project Photo {id}</h4>
-                <p className="text-xs sm:text-sm text-slate-600 mb-3">2025-06-{10 + id}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-slate-500">Environmental Project</span>
-                  <div className="flex items-center space-x-2">
-                    <button className="p-2 hover:bg-slate-100 rounded-lg transition-colors">
-                      <Eye className="w-4 h-4 text-slate-600" />
-                    </button>
-                    <button className="p-2 hover:bg-slate-100 rounded-lg transition-colors">
-                      <Download className="w-4 h-4 text-slate-600" />
-                    </button>
+                
+                <div className="bg-gradient-to-br from-green-100 to-emerald-100 rounded-xl p-6 border border-green-200">
+                  <h4 className="text-lg font-bold text-slate-800 mb-4">Total Savings Impact</h4>
+                  <div className="space-y-4">
+                    <div className="text-center">
+                      <p className="text-4xl font-bold text-green-600">
+                        {(matureAreas.reduce((sum, area) => sum + area.savings, 0) / 1000000).toFixed(1)}M
+                      </p>
+                      <p className="text-slate-600 font-medium">ETB Annual Savings</p>
+                    </div>
+                    
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span>Areas at 85%+ maturity:</span>
+                        <span className="font-medium">{matureAreas.length}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Maintenance-only areas:</span>
+                        <span className="font-medium">{matureAreas.filter(a => a.nextAction.includes('Maintenance')).length}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Budget reallocation potential:</span>
+                        <span className="font-medium text-green-600">High</span>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-white/60 rounded-lg p-3 mt-4">
+                      <p className="text-xs text-slate-600">
+                        💡 <strong>Recommendation:</strong> Redirect saved funds to new development areas and species diversification programs.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        )}
+
+        {/* Plant Species Analysis */}
+        {activeView === 'plants' && (
+          <div className="space-y-6">
+            <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-slate-100">
+              <h3 className="text-xl font-bold text-slate-800 mb-6">Plant Species Analysis - {selectedYear}</h3>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-7 gap-6">
+                {plantSpecies.map(plant => (
+                  <div key={plant.id} className="bg-slate-50 rounded-xl p-6 hover:shadow-lg transition-all">
+                    <div className="text-center mb-4">
+                      <div className="text-4xl mb-2">{plant.icon}</div>
+                      <h4 className="font-bold text-slate-800 text-lg">{plant.name}</h4>
+                      <p className="text-xs text-slate-500 italic">{plant.scientificName}</p>
+                      <span className="inline-block mt-2 px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                        {plant.type}
+                      </span>
+                    </div>
+                    
+                    <div className="space-y-3 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">Unit Cost:</span>
+                        <span className="font-bold text-green-600">{plant.unitCost.toLocaleString()} ETB</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">Planted:</span>
+                        <span className="font-bold">{plant.plantedCount.toLocaleString()}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">Total Cost:</span>
+                        <span className="font-bold text-blue-600">{((plant.unitCost * plant.plantedCount) / 1000000).toFixed(1)}M</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">Survival Rate:</span>
+                        <span className={`font-bold ${plant.survivalRate > 90 ? 'text-green-600' : plant.survivalRate > 85 ? 'text-yellow-600' : 'text-red-600'}`}>
+                          {plant.survivalRate}%
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">Maturity:</span>
+                        <span className="font-medium">{plant.maturityPeriod}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-4 pt-4 border-t border-slate-200">
+                      <p className="text-xs text-slate-600 font-medium mb-2">Key Benefits:</p>
+                      <div className="space-y-1">
+                        {plant.benefits.map((benefit, index) => (
+                          <div key={index} className="flex items-center space-x-1">
+                            <div className="w-1 h-1 bg-emerald-500 rounded-full"></div>
+                            <span className="text-xs text-slate-600">{benefit}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {/* Survival Rate Visual */}
+                    <div className="mt-4">
+                      <div className="bg-slate-200 rounded-full h-2">
+                        <div 
+                          className={`h-2 rounded-full transition-all duration-500 ${
+                            plant.survivalRate > 90 ? 'bg-green-500' : 
+                            plant.survivalRate > 85 ? 'bg-yellow-500' : 'bg-red-500'
+                          }`}
+                          style={{ width: `${plant.survivalRate}%` }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Cost Analysis Summary */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
+                <h4 className="text-lg font-bold text-slate-800 mb-4">Cost Distribution by Species</h4>
+                <div className="space-y-3">
+                  {plantSpecies
+                    .sort((a, b) => (b.unitCost * b.plantedCount) - (a.unitCost * a.plantedCount))
+                    .map(plant => {
+                      const totalCost = plant.unitCost * plant.plantedCount;
+                      const percentage = (totalCost / getTotalPlantCost()) * 100;
+                      return (
+                        <div key={plant.id} className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            <span className="text-lg">{plant.icon}</span>
+                            <span className="text-sm font-medium text-slate-700">{plant.name}</span>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-sm font-bold text-slate-800">{(totalCost / 1000000).toFixed(1)}M ETB</div>
+                            <div className="text-xs text-slate-500">{percentage.toFixed(1)}%</div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
+                <h4 className="text-lg font-bold text-slate-800 mb-4">Performance Metrics</h4>
+                <div className="space-y-4">
+                  <div className="p-4 bg-green-50 rounded-xl">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-green-700 font-medium">Best Performing Species</span>
+                      <span className="text-lg">{plantSpecies.sort((a, b) => b.survivalRate - a.survivalRate)[0].icon}</span>
+                    </div>
+                    <p className="text-lg font-bold text-green-600">{plantSpecies.sort((a, b) => b.survivalRate - a.survivalRate)[0].name}</p>
+                    <p className="text-sm text-green-600">{plantSpecies.sort((a, b) => b.survivalRate - a.survivalRate)[0].survivalRate}% survival rate</p>
+                  </div>
+                  
+                  <div className="p-4 bg-blue-50 rounded-xl">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-blue-700 font-medium">Most Cost Effective</span>
+                      <span className="text-lg">{plantSpecies.sort((a, b) => a.unitCost - b.unitCost)[0].icon}</span>
+                    </div>
+                    <p className="text-lg font-bold text-blue-600">{plantSpecies.sort((a, b) => a.unitCost - b.unitCost)[0].name}</p>
+                    <p className="text-sm text-blue-600">{plantSpecies.sort((a, b) => a.unitCost - b.unitCost)[0].unitCost.toLocaleString()} ETB per tree</p>
+                  </div>
+                  
+                  <div className="p-4 bg-purple-50 rounded-xl">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-purple-700 font-medium">Most Planted</span>
+                      <span className="text-lg">{plantSpecies.sort((a, b) => b.plantedCount - a.plantedCount)[0].icon}</span>
+                    </div>
+                    <p className="text-lg font-bold text-purple-600">{plantSpecies.sort((a, b) => b.plantedCount - a.plantedCount)[0].name}</p>
+                    <p className="text-sm text-purple-600">{plantSpecies.sort((a, b) => b.plantedCount - a.plantedCount)[0].plantedCount.toLocaleString()} trees planted</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Temporal Analysis */}
+        {activeView === 'temporal' && (
+          <div className="space-y-6">
+            <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-slate-100">
+              <h3 className="text-xl font-bold text-slate-800 mb-6">Yearly Development Progress</h3>
+              
+              {/* Overall Progress */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                {Object.entries(yearlyData).map(([year, data]) => (
+                  <div key={year} className={`p-6 rounded-xl border-2 ${selectedYear === year ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 bg-slate-50'}`}>
+                    <h4 className="text-2xl font-bold text-slate-800 mb-4">{year}</h4>
+                    <div className="space-y-3">
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">Trees Planted:</span>
+                        <span className="font-bold text-emerald-600">{data.totalTrees.toLocaleString()}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">Investment:</span>
+                        <span className="font-bold text-blue-600">{(data.totalCost / 1000000).toFixed(1)}M ETB</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">Areas Completed:</span>
+                        <span className="font-bold text-purple-600">{data.completedAreas}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">Avg Survival:</span>
+                        <span className="font-bold text-orange-600">{data.avgSurvivalRate}%</span>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-4">
+                      <p className="text-sm font-medium text-slate-700 mb-2">Key Development Areas:</p>
+                      <div className="space-y-1">
+                        {data.developedAreas.map((area, index) => (
+                          <div key={index} className="flex items-center space-x-2">
+                            <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                            <span className="text-xs text-slate-600">{area}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Subcity Breakdown */}
+              {selectedSubcity !== 'all' && (
+                <div className="bg-slate-50 rounded-xl p-6">
+                  <h4 className="text-lg font-bold text-slate-800 mb-4">{selectedSubcity} - Detailed Analysis</h4>
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    {Object.keys(yearlyData).map(year => {
+                      const data = getSubcityYearlyData(selectedSubcity, year);
+                      return (
+                        <div key={year} className="bg-white p-4 rounded-lg">
+                          <h5 className="font-bold text-slate-700 mb-3">{year}</h5>
+                          <div className="space-y-2 text-sm">
+                            <div className="flex justify-between">
+                              <span>Trees:</span>
+                              <span className="font-medium">{data.treesPlanted.toLocaleString()}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span>Investment:</span>
+                              <span className="font-medium">{(data.investment / 1000000).toFixed(1)}M ETB</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span>Areas:</span>
+                              <span className="font-medium">{data.areasCompleted}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span>Survival:</span>
+                              <span className="font-medium">{data.survivalRate}%</span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Projections */}
+        {activeView === 'projections' && (
+          <div className="space-y-6">
+            <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-slate-100">
+              <h3 className="text-xl font-bold text-slate-800 mb-6">Future Projections & Targets (2026-2030)</h3>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Projections Chart */}
+                <div>
+                  <h4 className="text-lg font-bold text-slate-700 mb-4">Expected vs Target Trees</h4>
+                  <div className="space-y-4">
+                    {Object.entries(projections).map(([year, data]) => (
+                      <div key={year} className="p-4 bg-slate-50 rounded-xl">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="font-bold text-slate-800">{year}</span>
+                          <span className="text-sm font-medium text-slate-600">Confidence: {data.confidence}%</span>
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <div className="flex justify-between text-sm">
+                            <span className="text-slate-600">Target:</span>
+                            <span className="font-bold text-blue-600">{data.target.toLocaleString()}</span>
+                          </div>
+                          <div className="flex justify-between text-sm">
+                            <span className="text-slate-600">Expected:</span>
+                            <span className="font-bold text-emerald-600">{data.expected.toLocaleString()}</span>
+                          </div>
+                          
+                          {/* Progress bars */}
+                          <div className="space-y-1 mt-3">
+                            <div className="bg-blue-200 rounded-full h-2">
+                              <div 
+                                className="bg-blue-500 h-2 rounded-full"
+                                style={{ width: '100%' }}
+                              />
+                            </div>
+                            <div className="bg-emerald-200 rounded-full h-2">
+                              <div 
+                                className="bg-emerald-500 h-2 rounded-full"
+                                style={{ width: `${(data.expected / data.target) * 100}%` }}
+                              />
+                            </div>
+                          </div>
+                          
+                          <div className="text-xs text-slate-500 mt-2">
+                            Gap: {(data.target - data.expected).toLocaleString()} trees ({((data.target - data.expected) / data.target * 100).toFixed(1)}%)
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Strategic Recommendations */}
+                <div>
+                  <h4 className="text-lg font-bold text-slate-700 mb-4">Strategic Recommendations</h4>
+                  <div className="space-y-4">
+                    <div className="p-4 bg-green-50 rounded-xl border border-green-200">
+                      <h5 className="font-bold text-green-800 mb-2">🎯 Priority Actions</h5>
+                      <ul className="text-sm text-green-700 space-y-1">
+                        <li>• Focus on fast-growing, high-survival species</li>
+                        <li>• Increase investment in soil preparation</li>
+                        <li>• Implement community engagement programs</li>
+                        <li>• Develop specialized maintenance teams</li>
+                      </ul>
+                    </div>
+                    
+                    <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
+                      <h5 className="font-bold text-blue-800 mb-2">💰 Budget Optimization</h5>
+                      <ul className="text-sm text-blue-700 space-y-1">
+                        <li>• Redirect funds from mature areas</li>
+                        <li>• Bulk purchasing for better rates</li>
+                        <li>• Partner with international organizations</li>
+                        <li>• Implement performance-based incentives</li>
+                      </ul>
+                    </div>
+                    
+                    <div className="p-4 bg-purple-50 rounded-xl border border-purple-200">
+                      <h5 className="font-bold text-purple-800 mb-2">🔬 Innovation Opportunities</h5>
+                      <ul className="text-sm text-purple-700 space-y-1">
+                        <li>• Use AI for optimal planting locations</li>
+                        <li>• Implement IoT monitoring systems</li>
+                        <li>• Develop drought-resistant varieties</li>
+                        <li>• Create mobile monitoring apps</li>
+                      </ul>
+                    </div>
+                    
+                    <div className="p-4 bg-orange-50 rounded-xl border border-orange-200">
+                      <h5 className="font-bold text-orange-800 mb-2">⚠️ Risk Mitigation</h5>
+                      <ul className="text-sm text-orange-700 space-y-1">
+                        <li>• Climate change adaptation strategies</li>
+                        <li>• Disease outbreak prevention plans</li>
+                        <li>• Water scarcity contingency measures</li>
+                        <li>• Political stability considerations</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* AI-Powered Insights */}
+            <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-6 sm:p-8 text-white shadow-lg">
+              <h3 className="text-xl font-bold mb-4 flex items-center">
+                <Sparkles className="w-6 h-6 mr-2" />
+                AI-Powered Insights
+              </h3>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="bg-white/10 rounded-xl p-4">
+                  <h4 className="font-bold mb-2">🤖 Predictive Analysis</h4>
+                  <p className="text-sm text-purple-100">
+                    Based on current trends, Bole and Yeka subcities are likely to exceed their 2026 targets by 15% if current efficiency is maintained.
+                  </p>
+                </div>
+                
+                <div className="bg-white/10 rounded-xl p-4">
+                  <h4 className="font-bold mb-2">📊 Data Correlation</h4>
+                  <p className="text-sm text-purple-100">
+                    Higher survival rates correlate with pre-planting soil analysis and community involvement programs (+23% success rate).
+                  </p>
+                </div>
+                
+                <div className="bg-white/10 rounded-xl p-4">
+                  <h4 className="font-bold mb-2">🎯 Optimization Suggestion</h4>
+                  <p className="text-sm text-purple-100">
+                    Redirecting 30% of budget from mature areas to new developments could increase overall tree count by 8,500 annually.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
-  </div>
-);
+  );
+};
+
+const Gallery = () => {
+  const [selectedSubcity, setSelectedSubcity] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState('2025-06');
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
+
+  // Generate available months (last 6 months)
+  const getAvailableMonths = () => {
+    const months = [];
+    for (let i = 0; i < 6; i++) {
+      const date = new Date();
+      date.setMonth(date.getMonth() - i);
+      const monthStr = date.toISOString().slice(0, 7); // YYYY-MM format
+      const monthName = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+      months.push({ value: monthStr, label: monthName });
+    }
+    return months;
+  };
+
+  // Simulate photo structure based on public/assets/{subcity}/{month}/ organization
+  const getPhotosForSubcityMonth = (subcityName, month) => {
+    if (!subcityName || !month) return [];
+    
+    // Simulate different number of photos per subcity/month
+    const photoCount = Math.floor(Math.random() * 8) + 4; // 4-12 photos
+    const photos = [];
+    
+    for (let i = 1; i <= photoCount; i++) {
+      // Create realistic photo metadata
+      const categories = ['tree-planting', 'park-development', 'roadside-greening', 'community-garden'];
+      const category = categories[Math.floor(Math.random() * categories.length)];
+      
+      photos.push({
+        id: `${subcityName}-${month}-${i}`,
+        filename: `photo_${i}.jpg`,
+        path: `/assets/${subcityName}/${month}/photo_${i}.jpg`,
+        title: `${category.replace('-', ' ')} Project ${i}`,
+        category: category,
+        date: `${month}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`,
+        description: `Environmental project documentation in ${subcityName}`,
+        photographer: 'Environmental Team',
+        size: `${(Math.random() * 2 + 1).toFixed(1)}MB`,
+        tags: ['environmental', 'trees', subcityName.toLowerCase().replace(' ', '-')],
+        likes: Math.floor(Math.random() * 50) + 10,
+        downloads: Math.floor(Math.random() * 20) + 5
+      });
+    }
+    
+    return photos;
+  };
+
+  const availableMonths = getAvailableMonths();
+  const photos = selectedSubcity ? getPhotosForSubcityMonth(selectedSubcity.name, selectedMonth) : [];
+
+  const getCategoryColor = (category) => {
+    const colors = {
+      'tree-planting': 'bg-green-100 text-green-800',
+      'park-development': 'bg-blue-100 text-blue-800',
+      'roadside-greening': 'bg-yellow-100 text-yellow-800',
+      'community-garden': 'bg-purple-100 text-purple-800'
+    };
+    return colors[category] || 'bg-slate-100 text-slate-800';
+  };
+
+  const getCategoryIcon = (category) => {
+    const icons = {
+      'tree-planting': '🌳',
+      'park-development': '🏞️',
+      'roadside-greening': '🛣️',
+      'community-garden': '🌸'
+    };
+    return icons[category] || '📷';
+  };
+
+  return (
+    <div className="bg-gradient-to-br from-purple-50 to-pink-50 min-h-screen">
+      <div className="p-4 sm:p-6 space-y-6">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-6 sm:p-8 text-white shadow-lg">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-bold mb-2">Environmental Project Gallery</h2>
+              <p className="text-purple-100 text-sm sm:text-lg">Organized photo documentation by subcity and month</p>
+            </div>
+            <div className="hidden sm:block">
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                <Camera className="w-8 h-8 text-white mb-2" />
+                <p className="text-xs text-purple-200">Photo Archive</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Subcity Selection */}
+        <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-slate-100">
+          <h3 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 sm:mb-6">Select Subcity</h3>
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
+            {subcities.map(subcity => (
+              <button
+                key={subcity.id}
+                onClick={() => setSelectedSubcity(subcity)}
+                className={`p-4 rounded-xl border-2 transition-all text-left hover:shadow-lg ${
+                  selectedSubcity?.id === subcity.id
+                    ? 'border-purple-500 bg-purple-50 shadow-lg'
+                    : 'border-slate-200 hover:border-slate-300 bg-white'
+                }`}
+              >
+                <div className="flex items-center space-x-3">
+                  <div className={`w-4 h-4 rounded-full ${
+                    subcity.progress > 85 ? 'bg-green-500' :
+                    subcity.progress > 70 ? 'bg-yellow-500' : 'bg-red-500'
+                  }`}></div>
+                  <div className="min-w-0 flex-1">
+                    <h4 className="font-bold text-slate-800 text-sm truncate">{subcity.name}</h4>
+                    <p className="text-xs text-slate-600">Mayor: {subcity.mayor}</p>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Month and View Controls */}
+        {selectedSubcity && (
+          <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-slate-100">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 space-y-4 sm:space-y-0">
+              <div>
+                <h3 className="text-xl font-bold text-slate-800 mb-2">{selectedSubcity.name} Photo Gallery</h3>
+                <p className="text-slate-600">Browse environmental project photos by month</p>
+              </div>
+              
+              <div className="flex items-center space-x-3">
+                {/* Month Selector */}
+                <select
+                  value={selectedMonth}
+                  onChange={(e) => setSelectedMonth(e.target.value)}
+                  className="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                >
+                  {availableMonths.map(month => (
+                    <option key={month.value} value={month.value}>
+                      {month.label}
+                    </option>
+                  ))}
+                </select>
+
+                {/* View Mode Toggle */}
+                <div className="flex bg-slate-100 rounded-lg p-1">
+                  <button
+                    onClick={() => setViewMode('grid')}
+                    className={`p-2 rounded transition-all ${
+                      viewMode === 'grid' ? 'bg-white shadow-sm' : 'hover:bg-slate-200'
+                    }`}
+                  >
+                    <Grid className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => setViewMode('list')}
+                    className={`p-2 rounded transition-all ${
+                      viewMode === 'list' ? 'bg-white shadow-sm' : 'hover:bg-slate-200'
+                    }`}
+                  >
+                    <FileText className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Upload Button */}
+                <button className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors flex items-center space-x-2 text-sm">
+                  <Upload className="w-4 h-4" />
+                  <span className="hidden sm:inline">Upload Photos</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Photo Statistics */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+              <div className="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-xl border border-green-200">
+                <p className="text-2xl font-bold text-green-600">{photos.length}</p>
+                <p className="text-sm text-green-700">Photos This Month</p>
+              </div>
+              <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-xl border border-blue-200">
+                <p className="text-2xl font-bold text-blue-600">{photos.reduce((sum, p) => sum + p.likes, 0)}</p>
+                <p className="text-sm text-blue-700">Total Likes</p>
+              </div>
+              <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-xl border border-purple-200">
+                <p className="text-2xl font-bold text-purple-600">{photos.reduce((sum, p) => sum + p.downloads, 0)}</p>
+                <p className="text-sm text-purple-700">Downloads</p>
+              </div>
+              <div className="bg-gradient-to-r from-orange-50 to-orange-100 p-4 rounded-xl border border-orange-200">
+                <p className="text-2xl font-bold text-orange-600">{new Set(photos.map(p => p.category)).size}</p>
+                <p className="text-sm text-orange-700">Categories</p>
+              </div>
+            </div>
+
+            {/* Photo Grid/List */}
+            {photos.length > 0 ? (
+              viewMode === 'grid' ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+                  {photos.map(photo => (
+                    <div key={photo.id} className="bg-white rounded-xl shadow-lg border border-slate-100 overflow-hidden hover:shadow-xl transition-all group">
+                      {/* Photo Placeholder */}
+                      <div className="h-48 bg-gradient-to-br from-green-200 via-blue-200 to-purple-200 relative overflow-hidden">
+                        <div className="w-full h-full flex items-center justify-center">
+                          <div className="text-center">
+                            <div className="text-4xl mb-2">{getCategoryIcon(photo.category)}</div>
+                            <p className="text-xs text-slate-600 px-2">{photo.title}</p>
+                          </div>
+                        </div>
+                        
+                        {/* Category Badge */}
+                        <div className="absolute top-3 left-3">
+                          <div className={`px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(photo.category)}`}>
+                            {photo.category.replace('-', ' ')}
+                          </div>
+                        </div>
+
+                        {/* Actions Overlay */}
+                        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="flex space-x-1">
+                            <button className="p-2 bg-white/90 rounded-lg hover:bg-white transition-colors">
+                              <Eye className="w-4 h-4 text-slate-600" />
+                            </button>
+                            <button className="p-2 bg-white/90 rounded-lg hover:bg-white transition-colors">
+                              <Download className="w-4 h-4 text-slate-600" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Photo Info */}
+                      <div className="p-4">
+                        <h4 className="font-semibold text-slate-800 mb-2 text-sm">{photo.title}</h4>
+                        <div className="space-y-2 text-xs text-slate-600">
+                          <div className="flex justify-between">
+                            <span>Date:</span>
+                            <span>{photo.date}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Size:</span>
+                            <span>{photo.size}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Likes:</span>
+                            <span>{photo.likes}</span>
+                          </div>
+                        </div>
+                        
+                        {/* Tags */}
+                        <div className="flex flex-wrap gap-1 mt-3">
+                          {photo.tags.slice(0, 2).map(tag => (
+                            <span key={tag} className="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">
+                              #{tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                // List View
+                <div className="space-y-4">
+                  {photos.map(photo => (
+                    <div key={photo.id} className="bg-slate-50 rounded-xl p-4 hover:bg-slate-100 transition-colors">
+                      <div className="flex items-center space-x-4">
+                        {/* Thumbnail */}
+                        <div className="w-16 h-16 bg-gradient-to-br from-green-200 to-blue-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <span className="text-2xl">{getCategoryIcon(photo.category)}</span>
+                        </div>
+                        
+                        {/* Photo Details */}
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-semibold text-slate-800 truncate">{photo.title}</h4>
+                          <p className="text-sm text-slate-600 truncate">{photo.description}</p>
+                          <div className="flex items-center space-x-4 mt-1 text-xs text-slate-500">
+                            <span>{photo.date}</span>
+                            <span>{photo.size}</span>
+                            <span>{photo.likes} likes</span>
+                            <span>{photo.downloads} downloads</span>
+                          </div>
+                        </div>
+
+                        {/* Category & Actions */}
+                        <div className="flex items-center space-x-3">
+                          <div className={`px-3 py-1 rounded-full text-xs font-medium ${getCategoryColor(photo.category)}`}>
+                            {photo.category.replace('-', ' ')}
+                          </div>
+                          <div className="flex space-x-1">
+                            <button className="p-2 hover:bg-slate-200 rounded-lg transition-colors">
+                              <Eye className="w-4 h-4 text-slate-600" />
+                            </button>
+                            <button className="p-2 hover:bg-slate-200 rounded-lg transition-colors">
+                              <Download className="w-4 h-4 text-slate-600" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )
+            ) : (
+              // Empty State
+              <div className="text-center py-12">
+                <Camera className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-slate-600 mb-2">No Photos Found</h3>
+                <p className="text-slate-500 mb-4">No photos have been uploaded for {selectedSubcity.name} in {availableMonths.find(m => m.value === selectedMonth)?.label}</p>
+                <button className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors flex items-center space-x-2 mx-auto">
+                  <Upload className="w-4 h-4" />
+                  <span>Upload First Photos</span>
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Instructions when no subcity selected */}
+        {!selectedSubcity && (
+          <div className="bg-white rounded-2xl p-8 shadow-lg border border-slate-100 text-center">
+            <div className="max-w-md mx-auto">
+              <Camera className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+              <h3 className="text-xl font-bold text-slate-700 mb-3">Select a Subcity</h3>
+              <p className="text-slate-600 mb-6">
+                Choose a subcity above to browse their environmental project photos organized by month.
+              </p>
+              <div className="bg-slate-50 rounded-xl p-4 text-left">
+                <h4 className="font-semibold text-slate-700 mb-2">Photo Organization:</h4>
+                <ul className="text-sm text-slate-600 space-y-1">
+                  <li>📁 <code>/assets/{"{subcity}"}/{"{YYYY-MM}"}/</code></li>
+                  <li>🗂️ Organized by subcity and month</li>
+                  <li>🏷️ Tagged by project category</li>
+                  <li>📊 Track views and downloads</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
 const ReportsManagement = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -959,89 +1954,231 @@ const ReportsManagement = () => {
 
 const InteractiveMaps = () => {
   const [selectedSubcity, setSelectedSubcity] = useState(null);
+  const [mapView, setMapView] = useState('google'); // 'google' or 'static'
+
+  // Real geographical positions for Addis Ababa subcities (approximate percentages based on actual locations)
+  const subcityPositions = {
+    'Kolfe Keraniyo': { left: '25%', top: '45%' },
+    'Yeka': { left: '75%', top: '25%' },
+    'Bole': { left: '70%', top: '60%' },
+    'Lideta': { left: '45%', top: '50%' },
+    'Arada': { left: '50%', top: '45%' },
+    'Nifassilk Lafto': { left: '65%', top: '75%' },
+    'Lemi Kura': { left: '80%', top: '45%' },
+    'Gulele': { left: '40%', top: '35%' },
+    'Addis Ketema': { left: '48%', top: '48%' },
+    'Kirkos': { left: '52%', top: '52%' },
+    'Akaki Kality': { left: '35%', top: '70%' }
+  };
 
   return (
     <div className="bg-gradient-to-br from-blue-50 to-green-50 min-h-screen">
       <div className="p-4 sm:p-6 space-y-6">
         <div className="bg-gradient-to-r from-blue-600 to-green-600 rounded-2xl p-6 sm:p-8 text-white shadow-lg">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-2">Interactive City Maps</h2>
-          <p className="text-blue-100 text-sm sm:text-lg">Geographic visualization of environmental projects</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-bold mb-2">Interactive City Maps</h2>
+              <p className="text-blue-100 text-sm sm:text-lg">Geographic visualization of environmental projects in Addis Ababa</p>
+            </div>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => setMapView('google')}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  mapView === 'google' 
+                    ? 'bg-white text-blue-600' 
+                    : 'bg-white/20 text-white hover:bg-white/30'
+                }`}
+              >
+                🗺️ Satellite
+              </button>
+              <button
+                onClick={() => setMapView('static')}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  mapView === 'static' 
+                    ? 'bg-white text-blue-600' 
+                    : 'bg-white/20 text-white hover:bg-white/30'
+                }`}
+              >
+                📍 Overview
+              </button>
+            </div>
+          </div>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden">
-          <div className="h-64 sm:h-96 bg-gradient-to-br from-green-100 to-blue-100 relative">
-            <div className="absolute inset-4 bg-white/30 backdrop-blur-sm rounded-xl flex items-center justify-center">
-              <div className="text-center p-4">
-                <Map className="w-12 h-12 sm:w-16 sm:h-16 text-slate-400 mx-auto mb-3 sm:mb-4" />
-                <h4 className="text-lg sm:text-xl font-bold text-slate-700 mb-2">Interactive Map View</h4>
-                <p className="text-slate-600 text-sm sm:text-base">Addis Ababa Environmental Projects Map</p>
-                <p className="text-xs sm:text-sm text-slate-500 mt-2">Click on subcities to view detailed information</p>
+          <div className="relative h-96 sm:h-[600px]">
+            {mapView === 'google' ? (
+              // Google Maps Embed
+              <div className="w-full h-full relative">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d252230.02028974562!2d38.613328!3d8.9806034!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b85cef5ab402d%3A0x8467b6b037a24d49!2sAddis%20Ababa%2C%20Ethiopia!5e0!3m2!1sen!2sus!4v1635959543150!5m2!1sen!2sus"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="rounded-t-2xl"
+                ></iframe>
+                
+                {/* Overlay controls */}
+                <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm rounded-xl p-3 shadow-lg">
+                  <h5 className="font-bold text-slate-800 mb-2 text-sm">Environmental Projects</h5>
+                  <div className="space-y-1 text-xs">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                      <span>Excellent Progress (85%+)</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                      <span>Good Progress (70-85%)</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                      <span>Needs Attention (&lt;70%)</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Project statistics overlay */}
+                <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-green-600">24,850</p>
+                    <p className="text-xs text-slate-600">Trees Planted</p>
+                  </div>
+                  <div className="text-center mt-2">
+                    <p className="text-xl font-bold text-blue-600">11</p>
+                    <p className="text-xs text-slate-600">Active Subcities</p>
+                  </div>
+                </div>
               </div>
-            </div>
-            
-            {subcities.map((subcity, index) => (
-              <button
-                key={subcity.id}
-                onClick={() => setSelectedSubcity(subcity)}
-                className={`absolute w-3 h-3 sm:w-4 sm:h-4 rounded-full transform -translate-x-1/2 -translate-y-1/2 transition-all hover:scale-150 ${
-                  subcity.progress > 85 ? 'bg-green-500' :
-                  subcity.progress > 70 ? 'bg-yellow-500' : 'bg-red-500'
-                }`}
+            ) : (
+              // Static Map View with Interactive Elements
+              <div 
+                className="w-full h-full relative bg-gradient-to-br from-green-200 via-emerald-100 to-blue-200"
                 style={{
-                  left: `${20 + index * 15}%`,
-                  top: `${30 + (index % 3) * 20}%`
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23059669' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
                 }}
-              />
-            ))}
-            
-            <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 bg-white/90 backdrop-blur-sm rounded-xl p-3 sm:p-4">
-              <h5 className="font-bold text-slate-800 mb-2 text-sm sm:text-base">Legend</h5>
-              <div className="space-y-1 text-xs sm:text-sm">
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
-                  <span className="text-slate-600">Excellent (85%+)</span>
+              >
+                {/* City boundary outline */}
+                <div className="absolute inset-8 border-4 border-dashed border-slate-400/50 rounded-3xl"></div>
+                
+                {/* Central area indicator */}
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-blue-500/20 rounded-full flex items-center justify-center border-2 border-blue-500/40">
+                  <Building className="w-8 h-8 text-blue-600" />
                 </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-yellow-500 rounded-full"></div>
-                  <span className="text-slate-600">Good (70-85%)</span>
+
+                {/* Subcity markers with real positions */}
+                {subcities.map((subcity) => {
+                  const position = subcityPositions[subcity.name] || { left: '50%', top: '50%' };
+                  return (
+                    <button
+                      key={subcity.id}
+                      onClick={() => setSelectedSubcity(subcity)}
+                      className={`absolute w-6 h-6 rounded-full transform -translate-x-1/2 -translate-y-1/2 transition-all hover:scale-150 shadow-lg border-2 border-white z-10 ${
+                        subcity.progress > 85 ? 'bg-green-500 hover:bg-green-600' :
+                        subcity.progress > 70 ? 'bg-yellow-500 hover:bg-yellow-600' : 
+                        'bg-red-500 hover:bg-red-600'
+                      }`}
+                      style={position}
+                      title={`${subcity.name} - ${subcity.progress}% progress`}
+                    >
+                      <span className="sr-only">{subcity.name}</span>
+                    </button>
+                  );
+                })}
+
+                {/* Rivers/geographical features */}
+                <div className="absolute top-1/4 left-1/4 w-1/2 h-1 bg-blue-400/60 rounded-full transform rotate-12"></div>
+                <div className="absolute top-3/4 left-1/3 w-1/3 h-1 bg-blue-400/60 rounded-full transform -rotate-6"></div>
+
+                {/* Legend */}
+                <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg">
+                  <h5 className="font-bold text-slate-800 mb-3 text-sm">Subcity Progress</h5>
+                  <div className="space-y-2 text-xs">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-4 h-4 bg-green-500 rounded-full border border-white shadow"></div>
+                      <span className="text-slate-600">Excellent (85%+)</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-4 h-4 bg-yellow-500 rounded-full border border-white shadow"></div>
+                      <span className="text-slate-600">Good (70-85%)</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-4 h-4 bg-red-500 rounded-full border border-white shadow"></div>
+                      <span className="text-slate-600">Needs Attention (&lt;70%)</span>
+                    </div>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-slate-200">
+                    <p className="text-xs text-slate-500">Click markers for details</p>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full"></div>
-                  <span className="text-slate-600">Needs Attention (&lt;70%)</span>
+
+                {/* City label */}
+                <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-slate-800/80 backdrop-blur-sm text-white px-4 py-2 rounded-xl">
+                  <h4 className="font-bold text-lg">Addis Ababa</h4>
+                  <p className="text-xs text-slate-300">Capital City of Ethiopia</p>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
 
         {selectedSubcity && (
           <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-slate-100">
             <div className="flex items-center justify-between mb-4 sm:mb-6">
-              <h3 className="text-xl sm:text-2xl font-bold text-slate-800">{selectedSubcity.name}</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-slate-800">{selectedSubcity.name} Subcity</h3>
               <button 
                 onClick={() => setSelectedSubcity(null)}
-                className="p-2 hover:bg-slate-100 rounded-lg"
+                className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
               >
                 <span className="text-slate-500 text-lg">✕</span>
               </button>
             </div>
             
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-              <div className="text-center">
+              <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-xl text-center">
                 <p className="text-2xl sm:text-3xl font-bold text-blue-600">{selectedSubcity.progress}%</p>
                 <p className="text-xs sm:text-sm text-slate-600">Progress</p>
               </div>
-              <div className="text-center">
+              <div className="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-xl text-center">
                 <p className="text-2xl sm:text-3xl font-bold text-green-600">{selectedSubcity.projects}</p>
                 <p className="text-xs sm:text-sm text-slate-600">Projects</p>
               </div>
-              <div className="text-center">
+              <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-xl text-center">
                 <p className="text-2xl sm:text-3xl font-bold text-purple-600">{selectedSubcity.area}</p>
                 <p className="text-xs sm:text-sm text-slate-600">Area (km²)</p>
               </div>
-              <div className="text-center">
+              <div className="bg-gradient-to-r from-orange-50 to-orange-100 p-4 rounded-xl text-center">
                 <p className="text-2xl sm:text-3xl font-bold text-orange-600">{Math.round(selectedSubcity.budgetUsed / 1000000)}M</p>
                 <p className="text-xs sm:text-sm text-slate-600">Budget (ETB)</p>
+              </div>
+            </div>
+
+            <div className="mt-6 p-4 bg-slate-50 rounded-xl">
+              <h4 className="font-semibold text-slate-800 mb-2">Location Details</h4>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <span className="text-slate-600">Mayor:</span>
+                  <span className="ml-2 font-medium">{selectedSubcity.mayor}</span>
+                </div>
+                <div>
+                  <span className="text-slate-600">Population:</span>
+                  <span className="ml-2 font-medium">{selectedSubcity.population.toLocaleString()}</span>
+                </div>
+                <div>
+                  <span className="text-slate-600">Efficiency:</span>
+                  <span className="ml-2 font-medium">{selectedSubcity.efficiency}%</span>
+                </div>
+                <div>
+                  <span className="text-slate-600">Status:</span>
+                  <span className={`ml-2 font-medium ${
+                    selectedSubcity.status === 'excellent' ? 'text-green-600' :
+                    selectedSubcity.status === 'good' ? 'text-blue-600' : 'text-orange-600'
+                  }`}>
+                    {selectedSubcity.status.replace('-', ' ').toUpperCase()}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -1156,9 +2293,8 @@ const SubcityDetailedView = ({ subcity, onBack }) => {
           </div>
           <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-slate-100">
             <div className="text-center">
-              <p className="text-2xl sm:text-3xl font-bold text-orange-600">{subcity.efficiency}%</p>
-              <p className="text-slate-600 text-sm sm:text-base">Efficiency Rating</p>
-              <p className="text-xs text-slate-500 mt-1">City average: 89%</p>
+              <p className="text-2xl sm:text-3xl font-bold text-orange-600">{Math.round(subcity.budgetUsed / 1000000)}M</p>
+              <p className="text-slate-600 text-sm sm:text-base">Budget (ETB)</p>
             </div>
           </div>
         </div>
@@ -1202,8 +2338,8 @@ const SubcityDetailedView = ({ subcity, onBack }) => {
                           <div className="flex items-center space-x-3">
                             <div className="text-2xl">{category.icon}</div>
                             <div>
-                              <h4 className="font-semibold text-slate-800">{category.name}</h4>
-                              <p className="text-sm text-slate-600">{category.description}</p>
+                              <h4 className="font-bold text-slate-800">{category.name}</h4>
+                              <p className="text-xs sm:text-sm text-slate-600">{category.description}</p>
                             </div>
                           </div>
                           <div className="text-right">
