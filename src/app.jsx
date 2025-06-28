@@ -512,7 +512,6 @@ const DashboardHeader = ({ user, onLogout, currentView, setCurrentView }) => (
         {[
           { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
           { id: 'analytics', label: 'Analytics', icon: PieChart },
-          { id: 'reporting_status', label: 'Report Status', icon: FileText },  // Add this new menu item
           { id: 'reports', label: 'Reports', icon: FileText },
           { id: 'maps', label: 'Maps', icon: Map },
           { id: 'gallery', label: 'Gallery', icon: Camera }
@@ -2658,6 +2657,88 @@ const SubcityDetailedView = ({ subcity, onBack }) => {
 const ReportingStatusDashboard = () => {
   const [selectedMonth, setSelectedMonth] = useState('2025-06');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [selectedReport, setSelectedReport] = useState(null);
+  const [showReportDetail, setShowReportDetail] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [rejectionReason, setRejectionReason] = useState('');
+  const [showRejectModal, setShowRejectModal] = useState(false);
+
+  // Generate sample report data with attachments and content
+  const generateReportData = (subcity, month) => {
+    const reportStatus = getStatusForMonth(subcity, month);
+    if (!reportStatus.submitted) return null;
+
+    return {
+      id: `${subcity.id}-${month}`,
+      subcity: subcity.name,
+      month: month,
+      submittedDate: reportStatus.submittedDate,
+      submittedBy: reportStatus.submittedBy,
+      status: reportStatus.status,
+      
+      // Report content data
+      data: {
+        treesPlanted: Math.floor(Math.random() * 500) + 200,
+        budgetUsed: Math.floor(Math.random() * 1000000) + 500000,
+        areasCompleted: Math.floor(Math.random() * 10) + 5,
+        maintenanceActivities: Math.floor(Math.random() * 20) + 10,
+        communityEngagement: Math.floor(Math.random() * 100) + 50
+      },
+      
+      // File attachments
+      attachments: [
+        { 
+          id: 1, 
+          name: 'progress_photos.pdf', 
+          type: 'pdf', 
+          size: '2.3MB',
+          uploadDate: reportStatus.submittedDate,
+          description: 'Progress photos and documentation'
+        },
+        { 
+          id: 2, 
+          name: 'budget_breakdown.xlsx', 
+          type: 'excel', 
+          size: '0.8MB',
+          uploadDate: reportStatus.submittedDate,
+          description: 'Detailed budget utilization breakdown'
+        },
+        { 
+          id: 3, 
+          name: 'before_after_photos.zip', 
+          type: 'images', 
+          size: '15.2MB',
+          uploadDate: reportStatus.submittedDate,
+          description: 'Before and after project photos'
+        }
+      ],
+      
+      // Similarity analysis compared to previous reports
+      similarityAnalysis: {
+        overallSimilarity: Math.floor(Math.random() * 40) + 60, // 60-100%
+        dataConsistency: Math.floor(Math.random() * 30) + 70,
+        photoSimilarity: Math.floor(Math.random() * 50) + 50,
+        descriptionSimilarity: Math.floor(Math.random() * 60) + 40,
+        flaggedItems: Math.random() > 0.7 ? [
+          'Budget figures match exactly with previous month',
+          'Photo metadata suggests same capture date',
+          'Description text has 85% similarity to previous report'
+        ] : []
+      },
+      
+      // Rejection history if applicable
+      rejectionHistory: reportStatus.status === 'under_review' && Math.random() > 0.5 ? [
+        {
+          date: '2025-06-25',
+          reason: 'Insufficient documentation - missing budget breakdown',
+          reviewer: 'Dr. Kalkidan Teshome',
+          resolved: true
+        }
+      ] : [],
+      
+      description: `Environmental progress report for ${subcity.name} covering tree planting initiatives, budget utilization, and community engagement activities for ${month}.`
+    };
+  };
 
   // Generate available months (last 6 months)
   const getAvailableMonths = () => {
@@ -2686,6 +2767,7 @@ const ReportingStatusDashboard = () => {
       case 'pending': return 'bg-yellow-100 text-yellow-800 border-yellow-300';
       case 'under_review': return 'bg-blue-100 text-blue-800 border-blue-300';
       case 'overdue': return 'bg-red-100 text-red-800 border-red-300';
+      case 'rejected': return 'bg-red-100 text-red-800 border-red-300';
       case 'not_due': return 'bg-gray-100 text-gray-800 border-gray-300';
       default: return 'bg-slate-100 text-slate-800 border-slate-300';
     }
@@ -2697,7 +2779,64 @@ const ReportingStatusDashboard = () => {
       case 'pending': return <AlertCircle className="w-4 h-4" />;
       case 'under_review': return <Eye className="w-4 h-4" />;
       case 'overdue': return <AlertCircle className="w-4 h-4" />;
+      case 'rejected': return <AlertCircle className="w-4 h-4" />;
       default: return <FileText className="w-4 h-4" />;
+    }
+  };
+
+  const getFileIcon = (type) => {
+    switch (type) {
+      case 'pdf': return '📄';
+      case 'excel': return '📊';
+      case 'images': return '🖼️';
+      case 'word': return '📝';
+      default: return '📎';
+    }
+  };
+
+  const getSimilarityColor = (percentage) => {
+    if (percentage >= 90) return 'text-red-600';
+    if (percentage >= 80) return 'text-orange-600';
+    if (percentage >= 70) return 'text-yellow-600';
+    return 'text-green-600';
+  };
+
+  // Handle report approval/rejection
+  const handleApproveReport = async () => {
+    if (!selectedReport) return;
+    
+    setIsProcessing(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      setIsProcessing(false);
+      setShowReportDetail(false);
+      setSelectedReport(null);
+      // In real implementation, would update the report status
+      alert(`Report from ${selectedReport.subcity} has been approved!`);
+    }, 2000);
+  };
+
+  const handleRejectReport = async (reason) => {
+    if (!selectedReport) return;
+    
+    setIsProcessing(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      setIsProcessing(false);
+      setShowReportDetail(false);
+      setSelectedReport(null);
+      // In real implementation, would update the report status with rejection reason
+      alert(`Report from ${selectedReport.subcity} has been rejected. Reason: ${reason}`);
+    }, 2000);
+  };
+
+  const openReportDetail = (subcity, month) => {
+    const reportData = generateReportData(subcity, month);
+    if (reportData) {
+      setSelectedReport(reportData);
+      setShowReportDetail(true);
     }
   };
 
@@ -2708,183 +2847,412 @@ const ReportingStatusDashboard = () => {
     return status.status === filterStatus;
   });
 
-  // Calculate statistics
-  const stats = {
-    total: subcities.length,
-    submitted: subcities.filter(s => getStatusForMonth(s, selectedMonth).submitted).length,
-    approved: subcities.filter(s => getStatusForMonth(s, selectedMonth).status === 'approved').length,
-    overdue: subcities.filter(s => getStatusForMonth(s, selectedMonth).status === 'overdue').length,
-    pending: subcities.filter(s => getStatusForMonth(s, selectedMonth).status === 'pending').length
-  };
-
   return (
-    <div className="bg-gradient-to-br from-indigo-50 to-purple-50 min-h-screen">
+    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 min-h-screen">
       <div className="p-4 sm:p-6 space-y-6">
         {/* Header */}
-        <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-6 sm:p-8 text-white shadow-lg">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h2 className="text-2xl sm:text-3xl font-bold mb-2">Monthly Reporting Status</h2>
-              <p className="text-indigo-100 text-sm sm:text-lg">Track monthly environmental report submissions across all subcities</p>
-            </div>
-            <div className="hidden sm:block">
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                <FileText className="w-8 h-8 text-white mb-2" />
-                <p className="text-xs text-indigo-200">Report Tracking</p>
-              </div>
-            </div>
-          </div>
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-6 sm:p-8 text-white shadow-lg">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-2">Reports Management Dashboard</h2>
+          <p className="text-blue-100 text-sm sm:text-lg">Monitor and approve environmental reports from all subcities</p>
         </div>
 
         {/* Controls */}
         <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between space-y-4 sm:space-y-0">
             <div className="flex items-center space-x-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Select Month</label>
-                <select
-                  value={selectedMonth}
-                  onChange={(e) => setSelectedMonth(e.target.value)}
-                  className="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                >
-                  {availableMonths.map(month => (
-                    <option key={month.value} value={month.value}>
-                      {month.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Filter Status</label>
-                <select
-                  value={filterStatus}
-                  onChange={(e) => setFilterStatus(e.target.value)}
-                  className="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                >
-                  <option value="all">All Status</option>
-                  <option value="approved">Approved</option>
-                  <option value="pending">Pending</option>
-                  <option value="under_review">Under Review</option>
-                  <option value="overdue">Overdue</option>
-                  <option value="not_due">Not Due</option>
-                </select>
-              </div>
+              <select
+                value={selectedMonth}
+                onChange={(e) => setSelectedMonth(e.target.value)}
+                className="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
+              >
+                {availableMonths.map(month => (
+                  <option key={month.value} value={month.value}>
+                    {month.label}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                value={filterStatus}
+                onChange={(e) => setFilterStatus(e.target.value)}
+                className="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="all">All Status</option>
+                <option value="pending">Pending</option>
+                <option value="under_review">Under Review</option>
+                <option value="approved">Approved</option>
+                <option value="overdue">Overdue</option>
+              </select>
             </div>
           </div>
         </div>
 
-        {/* Statistics */}
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
-          <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-slate-200">
-            <div className="text-center">
-              <p className="text-2xl sm:text-3xl font-bold text-slate-600">{stats.total}</p>
-              <p className="text-slate-600 text-sm">Total Subcities</p>
-            </div>
-          </div>
-          <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-blue-200">
-            <div className="text-center">
-              <p className="text-2xl sm:text-3xl font-bold text-blue-600">{stats.submitted}</p>
-              <p className="text-slate-600 text-sm">Submitted</p>
-            </div>
-          </div>
-          <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-green-200">
-            <div className="text-center">
-              <p className="text-2xl sm:text-3xl font-bold text-green-600">{stats.approved}</p>
-              <p className="text-slate-600 text-sm">Approved</p>
-            </div>
-          </div>
-          <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-yellow-200">
-            <div className="text-center">
-              <p className="text-2xl sm:text-3xl font-bold text-yellow-600">{stats.pending}</p>
-              <p className="text-slate-600 text-sm">Pending</p>
-            </div>
-          </div>
-          <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-red-200">
-            <div className="text-center">
-              <p className="text-2xl sm:text-3xl font-bold text-red-600">{stats.overdue}</p>
-              <p className="text-slate-600 text-sm">Overdue</p>
-            </div>
-          </div>
+        {/* Reports Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          {filteredSubcities.map(subcity => {
+            const reportStatus = getStatusForMonth(subcity, selectedMonth);
+            return (
+              <div key={subcity.id} className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-bold text-slate-800">{subcity.name}</h3>
+                  <div className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(reportStatus.status)}`}>
+                    {getStatusIcon(reportStatus.status)}
+                    <span className="ml-1">{reportStatus.status.replace('_', ' ').toUpperCase()}</span>
+                  </div>
+                </div>
+                
+                <div className="space-y-2 text-sm text-slate-600 mb-4">
+                  <div>Mayor: {subcity.mayor}</div>
+                  {reportStatus.submitted && (
+                    <>
+                      <div>Submitted: {reportStatus.submittedDate}</div>
+                      <div>By: {reportStatus.submittedBy}</div>
+                    </>
+                  )}
+                </div>
+
+                {reportStatus.submitted && (
+                  <button
+                    onClick={() => openReportDetail(subcity, selectedMonth)}
+                    className="w-full bg-blue-50 hover:bg-blue-100 text-blue-600 py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
+                  >
+                    <Eye className="w-4 h-4" />
+                    <span>View Report Details</span>
+                  </button>
+                )}
+              </div>
+            );
+          })}
         </div>
 
-        {/* Subcity Reports Table */}
-        <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-slate-100">
-          <h3 className="text-xl font-bold text-slate-800 mb-6">
-            {availableMonths.find(m => m.value === selectedMonth)?.label} Report Status
-          </h3>
-          
-          <div className="space-y-4">
-            {filteredSubcities.map(subcity => {
-              const reportStatus = getStatusForMonth(subcity, selectedMonth);
-              return (
-                <div key={subcity.id} className="p-4 sm:p-6 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4 flex-1">
-                      <div className="flex-shrink-0">
-                        <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                          subcity.progress > 85 ? 'bg-green-100' :
-                          subcity.progress > 70 ? 'bg-yellow-100' : 'bg-red-100'
-                        }`}>
-                          <span className="text-sm font-bold">
-                            {subcity.progress}%
-                          </span>
+        {/* Detailed Report View Modal */}
+        {showReportDetail && selectedReport && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
+              {/* Modal Header */}
+              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h3 className="text-2xl font-bold">{selectedReport.subcity} Environmental Report</h3>
+                    <p className="text-blue-100">{availableMonths.find(m => m.value === selectedReport.month)?.label}</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setShowReportDetail(false);
+                      setSelectedReport(null);
+                    }}
+                    className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+                  >
+                    <span className="text-2xl">✕</span>
+                  </button>
+                </div>
+                
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+                  <div className="bg-white/10 rounded-lg p-3">
+                    <p className="text-xl font-bold">{selectedReport.data.treesPlanted}</p>
+                    <p className="text-xs text-blue-200">Trees Planted</p>
+                  </div>
+                  <div className="bg-white/10 rounded-lg p-3">
+                    <p className="text-xl font-bold">{(selectedReport.data.budgetUsed / 1000000).toFixed(1)}M</p>
+                    <p className="text-xs text-blue-200">Budget Used (ETB)</p>
+                  </div>
+                  <div className="bg-white/10 rounded-lg p-3">
+                    <p className="text-xl font-bold">{selectedReport.data.areasCompleted}</p>
+                    <p className="text-xs text-blue-200">Areas Completed</p>
+                  </div>
+                  <div className="bg-white/10 rounded-lg p-3">
+                    <p className="text-xl font-bold">{selectedReport.data.communityEngagement}</p>
+                    <p className="text-xs text-blue-200">Community Events</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Modal Content */}
+              <div className="p-6 overflow-y-auto max-h-[60vh]">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  
+                  {/* Left Column - Report Content & Attachments */}
+                  <div className="space-y-6">
+                    
+                    {/* Report Description */}
+                    <div className="bg-slate-50 rounded-xl p-4">
+                      <h4 className="font-bold text-slate-800 mb-3">Report Description</h4>
+                      <p className="text-slate-600 text-sm leading-relaxed">{selectedReport.description}</p>
+                    </div>
+
+                    {/* File Attachments */}
+                    <div className="bg-slate-50 rounded-xl p-4">
+                      <h4 className="font-bold text-slate-800 mb-4 flex items-center">
+                        <FileText className="w-5 h-5 mr-2" />
+                        Attachments ({selectedReport.attachments.length})
+                      </h4>
+                      <div className="space-y-3">
+                        {selectedReport.attachments.map(file => (
+                          <div key={file.id} className="flex items-center justify-between p-3 bg-white rounded-lg border border-slate-200 hover:border-blue-300 transition-colors">
+                            <div className="flex items-center space-x-3">
+                              <div className="text-2xl">{getFileIcon(file.type)}</div>
+                              <div>
+                                <p className="font-medium text-slate-800 text-sm">{file.name}</p>
+                                <p className="text-xs text-slate-500">{file.description}</p>
+                                <p className="text-xs text-slate-500">{file.size} • {file.uploadDate}</p>
+                              </div>
+                            </div>
+                            <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                              <Download className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Previous Rejection History */}
+                    {selectedReport.rejectionHistory && selectedReport.rejectionHistory.length > 0 && (
+                      <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+                        <h4 className="font-bold text-red-800 mb-3 flex items-center">
+                          <AlertCircle className="w-5 h-5 mr-2" />
+                          Previous Rejection History
+                        </h4>
+                        <div className="space-y-2">
+                          {selectedReport.rejectionHistory.map((rejection, index) => (
+                            <div key={index} className="bg-white rounded-lg p-3 border border-red-200">
+                              <div className="flex items-center justify-between mb-2">
+                                <span className="text-sm font-medium text-red-700">{rejection.date}</span>
+                                <span className="text-xs text-red-600">Reviewed by: {rejection.reviewer}</span>
+                              </div>
+                              <p className="text-sm text-red-700">{rejection.reason}</p>
+                              {rejection.resolved && (
+                                <div className="mt-2 text-xs text-green-600 font-medium">✓ Issues resolved in current submission</div>
+                              )}
+                            </div>
+                          ))}
                         </div>
                       </div>
+                    )}
+                  </div>
+
+                  {/* Right Column - Similarity Analysis */}
+                  <div className="space-y-6">
+                    
+                    {/* Similarity Analysis Visualizer */}
+                    <div className="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200 rounded-xl p-4">
+                      <h4 className="font-bold text-orange-800 mb-4 flex items-center">
+                        <Activity className="w-5 h-5 mr-2" />
+                        Similarity Analysis
+                      </h4>
                       
-                      <div className="min-w-0 flex-1">
-                        <h4 className="font-bold text-slate-800 text-lg">{subcity.name}</h4>
-                        <p className="text-sm text-slate-600">Mayor: {subcity.mayor}</p>
-                        {reportStatus.submitted && (
-                          <div className="text-xs text-slate-500 mt-1">
-                            Submitted: {reportStatus.submittedDate} by {reportStatus.submittedBy}
+                      {/* Overall Similarity Score */}
+                      <div className="mb-6 text-center">
+                        <div className="relative w-32 h-32 mx-auto mb-3">
+                          <svg className="w-32 h-32 transform -rotate-90" viewBox="0 0 36 36">
+                            <path
+                              d="M18 2.0845
+                                a 15.9155 15.9155 0 0 1 0 31.831
+                                a 15.9155 15.9155 0 0 1 0 -31.831"
+                              fill="none"
+                              stroke="#e5e7eb"
+                              strokeWidth="2"
+                            />
+                            <path
+                              d="M18 2.0845
+                                a 15.9155 15.9155 0 0 1 0 31.831
+                                a 15.9155 15.9155 0 0 1 0 -31.831"
+                              fill="none"
+                              stroke={selectedReport.similarityAnalysis.overallSimilarity >= 90 ? "#dc2626" : 
+                                     selectedReport.similarityAnalysis.overallSimilarity >= 80 ? "#ea580c" :
+                                     selectedReport.similarityAnalysis.overallSimilarity >= 70 ? "#d97706" : "#059669"}
+                              strokeWidth="2"
+                              strokeDasharray={`${selectedReport.similarityAnalysis.overallSimilarity}, 100`}
+                            />
+                          </svg>
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="text-center">
+                              <div className={`text-2xl font-bold ${getSimilarityColor(selectedReport.similarityAnalysis.overallSimilarity)}`}>
+                                {selectedReport.similarityAnalysis.overallSimilarity}%
+                              </div>
+                              <div className="text-xs text-slate-600">Overall</div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="text-sm text-slate-600">
+                          {selectedReport.similarityAnalysis.overallSimilarity >= 90 ? "🚨 Very High Similarity" :
+                           selectedReport.similarityAnalysis.overallSimilarity >= 80 ? "⚠️ High Similarity" :
+                           selectedReport.similarityAnalysis.overallSimilarity >= 70 ? "⚡ Moderate Similarity" : "✅ Acceptable Similarity"}
+                        </div>
+                      </div>
+
+                      {/* Detailed Similarity Breakdown */}
+                      <div className="space-y-4">
+                        <h5 className="font-semibold text-slate-700">Detailed Analysis:</h5>
+                        
+                        {[
+                          { label: "Data Consistency", value: selectedReport.similarityAnalysis.dataConsistency, icon: "📊" },
+                          { label: "Photo Similarity", value: selectedReport.similarityAnalysis.photoSimilarity, icon: "📷" },
+                          { label: "Description Similarity", value: selectedReport.similarityAnalysis.descriptionSimilarity, icon: "📝" }
+                        ].map((item, index) => (
+                          <div key={index} className="bg-white rounded-lg p-3 border border-orange-200">
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="flex items-center space-x-2">
+                                <span className="text-lg">{item.icon}</span>
+                                <span className="text-sm font-medium text-slate-700">{item.label}</span>
+                              </div>
+                              <span className={`text-sm font-bold ${getSimilarityColor(item.value)}`}>
+                                {item.value}%
+                              </span>
+                            </div>
+                            <div className="bg-slate-200 rounded-full h-2">
+                              <div 
+                                className={`h-2 rounded-full transition-all duration-500 ${
+                                  item.value >= 90 ? 'bg-red-500' :
+                                  item.value >= 80 ? 'bg-orange-500' :
+                                  item.value >= 70 ? 'bg-yellow-500' : 'bg-green-500'
+                                }`}
+                                style={{ width: `${item.value}%` }}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Flagged Items */}
+                      {selectedReport.similarityAnalysis.flaggedItems.length > 0 && (
+                        <div className="mt-6 bg-red-100 border border-red-300 rounded-lg p-3">
+                          <h5 className="font-semibold text-red-800 mb-2 flex items-center">
+                            <AlertCircle className="w-4 h-4 mr-2" />
+                            Flagged Issues ({selectedReport.similarityAnalysis.flaggedItems.length})
+                          </h5>
+                          <ul className="space-y-1">
+                            {selectedReport.similarityAnalysis.flaggedItems.map((item, index) => (
+                              <li key={index} className="text-sm text-red-700 flex items-start space-x-2">
+                                <span className="text-red-500 mt-0.5">•</span>
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* AI Recommendation */}
+                    <div className="bg-purple-50 border border-purple-200 rounded-xl p-4">
+                      <h4 className="font-bold text-purple-800 mb-3 flex items-center">
+                        <Sparkles className="w-5 h-5 mr-2" />
+                        AI Recommendation
+                      </h4>
+                      <div className="text-sm text-purple-700">
+                        {selectedReport.similarityAnalysis.overallSimilarity >= 90 ? (
+                          <div className="space-y-2">
+                            <p className="font-medium">⚠️ <strong>High Risk:</strong> This report shows very high similarity to previous submissions.</p>
+                            <p><strong>Recommended Action:</strong> Request clarification and additional documentation before approval.</p>
+                          </div>
+                        ) : selectedReport.similarityAnalysis.overallSimilarity >= 80 ? (
+                          <div className="space-y-2">
+                            <p className="font-medium">🔍 <strong>Review Required:</strong> Some elements appear similar to previous reports.</p>
+                            <p><strong>Recommended Action:</strong> Verify the flagged items and consider requesting additional evidence.</p>
+                          </div>
+                        ) : selectedReport.similarityAnalysis.overallSimilarity >= 70 ? (
+                          <div className="space-y-2">
+                            <p className="font-medium">✅ <strong>Acceptable:</strong> Report shows reasonable variation from previous submissions.</p>
+                            <p><strong>Recommended Action:</strong> Standard review process can proceed.</p>
+                          </div>
+                        ) : (
+                          <div className="space-y-2">
+                            <p className="font-medium">🎯 <strong>Excellent:</strong> Report demonstrates good originality and unique content.</p>
+                            <p><strong>Recommended Action:</strong> Fast-track approval recommended.</p>
                           </div>
                         )}
                       </div>
                     </div>
-                    
-                    <div className="flex items-center space-x-4">
-                      <div className={`flex items-center space-x-2 px-3 py-2 rounded-full border ${getStatusColor(reportStatus.status)}`}>
-                        {getStatusIcon(reportStatus.status)}
-                        <span className="text-sm font-medium capitalize">
-                          {reportStatus.status.replace('_', ' ')}
-                        </span>
-                      </div>
-                      
-                      {reportStatus.submitted && (
-                        <button className="p-2 hover:bg-slate-200 rounded-lg transition-colors">
-                          <Download className="w-4 h-4 text-slate-600" />
-                        </button>
-                      )}
-                    </div>
                   </div>
                 </div>
-              );
-            })}
-          </div>
+              </div>
 
-          {filteredSubcities.length === 0 && (
-            <div className="text-center py-12">
-              <FileText className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-slate-600 mb-2">No Reports Found</h3>
-              <p className="text-slate-500">No subcities match the selected filter criteria.</p>
+              {/* Modal Footer - Action Buttons */}
+              <div className="border-t border-slate-200 p-6 bg-slate-50">
+                <div className="flex items-center justify-between">
+                  <div className="text-sm text-slate-600">
+                    <span className="font-medium">Status:</span> {selectedReport.status.replace('_', ' ').toUpperCase()}
+                  </div>
+                  
+                  <div className="flex space-x-3">
+                    {(selectedReport.status === 'pending' || selectedReport.status === 'under_review') && (
+                      <>
+                        <button
+                          onClick={() => setShowRejectModal(true)}
+                          disabled={isProcessing}
+                          className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors disabled:opacity-50 flex items-center space-x-2"
+                        >
+                          <AlertCircle className="w-4 h-4" />
+                          <span>Reject</span>
+                        </button>
+                        
+                        <button
+                          onClick={handleApproveReport}
+                          disabled={isProcessing}
+                          className="px-6 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors disabled:opacity-50 flex items-center space-x-2"
+                        >
+                          <CheckCircle className="w-4 h-4" />
+                          <span>{isProcessing ? 'Processing...' : 'Approve'}</span>
+                        </button>
+                      </>
+                    )}
+                    
+                    <button
+                      onClick={() => {
+                        setShowReportDetail(false);
+                        setSelectedReport(null);
+                      }}
+                      className="px-6 py-2 bg-slate-500 hover:bg-slate-600 text-white rounded-lg transition-colors"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
-        {/* Action Items */}
-        {stats.overdue > 0 && (
-          <div className="bg-red-50 border border-red-200 rounded-2xl p-6 sm:p-8">
-            <div className="flex items-start space-x-4">
-              <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0 mt-1" />
-              <div>
-                <h3 className="text-lg font-bold text-red-800 mb-2">Action Required</h3>
-                <p className="text-red-700 mb-4">
-                  {stats.overdue} subcit{stats.overdue === 1 ? 'y has' : 'ies have'} overdue reports for {availableMonths.find(m => m.value === selectedMonth)?.label}.
-                </p>
-                <button className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-sm font-medium">
-                  Send Reminder Notifications
-                </button>
+        {/* Rejection Modal */}
+        {showRejectModal && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-60 flex items-center justify-center p-4">
+            <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl">
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-slate-800 mb-4">Reject Report</h3>
+                <p className="text-slate-600 mb-4">Please provide a reason for rejecting this report:</p>
+                
+                <textarea
+                  value={rejectionReason}
+                  onChange={(e) => setRejectionReason(e.target.value)}
+                  placeholder="Enter rejection reason..."
+                  rows={4}
+                  className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
+                />
+                
+                <div className="flex space-x-3 mt-6">
+                  <button
+                    onClick={() => {
+                      setShowRejectModal(false);
+                      setRejectionReason('');
+                    }}
+                    className="flex-1 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (rejectionReason.trim()) {
+                        handleRejectReport(rejectionReason);
+                        setShowRejectModal(false);
+                        setRejectionReason('');
+                      }
+                    }}
+                    disabled={!rejectionReason.trim() || isProcessing}
+                    className="flex-1 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors disabled:opacity-50"
+                  >
+                    {isProcessing ? 'Processing...' : 'Reject Report'}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -2894,14 +3262,21 @@ const ReportingStatusDashboard = () => {
   );
 };
 
+// Main App Component
 const App = () => {
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [currentView, setCurrentView] = useState('dashboard');
   const [selectedSubcity, setSelectedSubcity] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    // Simulate loading time
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  }, []);
 
   const handleLogin = (userInfo) => {
-    setIsLoading(true);
     setTimeout(() => {
       setUser(userInfo);
       setIsLoading(false);
@@ -2936,13 +3311,11 @@ const App = () => {
       case 'analytics':
         return <Analytics />;
       case 'reports':
-        return <ReportsManagement />;
+        return <ReportingStatusDashboard />;
       case 'maps':
         return <InteractiveMaps />;
       case 'gallery':
         return <Gallery />;
-      case 'reporting_status':  // Add this new case
-        return <ReportingStatusDashboard />;
       case 'detailed':
         return selectedSubcity ? 
           <SubcityDetailedView subcity={selectedSubcity} onBack={() => setCurrentView('dashboard')} /> :
