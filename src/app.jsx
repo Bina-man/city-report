@@ -33,7 +33,9 @@ import {
   Filter,
   Grid,
   Building,
-  Shield
+  Shield,
+  MoreHorizontal,
+  RefreshCcw
 } from 'lucide-react';
 
 const subcities = [
@@ -2662,6 +2664,39 @@ const ReportingStatusDashboard = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [rejectionReason, setRejectionReason] = useState('');
   const [showRejectModal, setShowRejectModal] = useState(false);
+  
+  // New state for Step 3 - Historical View
+  const [viewMode, setViewMode] = useState('current'); // 'current' or 'historical'
+  const [selectedSubcityHistory, setSelectedSubcityHistory] = useState(null);
+  const [showHistoryModal, setShowHistoryModal] = useState(false);
+
+  // Generate historical report data for all months
+  const generateHistoricalData = (subcity) => {
+    const months = getAvailableMonths();
+    return months.map(month => {
+      const monthData = {
+        month: month.value,
+        monthLabel: month.label,
+        ...getStatusForMonth(subcity, month.value)
+      };
+      
+      // Add rejection reasons for failed reports
+      if (monthData.status === 'rejected') {
+        monthData.rejectionReason = [
+          'Insufficient documentation provided',
+          'Budget breakdown missing key details',
+          'Photo quality does not meet standards',
+          'Data inconsistency with previous reports',
+          'Community engagement evidence insufficient'
+        ][Math.floor(Math.random() * 5)];
+        monthData.rejectionDate = monthData.submittedDate ? 
+          new Date(new Date(monthData.submittedDate).getTime() + 3 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10) : 
+          null;
+      }
+      
+      return monthData;
+    });
+  };
 
   // Generate sample report data with attachments and content
   const generateReportData = (subcity, month) => {
@@ -2812,7 +2847,6 @@ const ReportingStatusDashboard = () => {
       setIsProcessing(false);
       setShowReportDetail(false);
       setSelectedReport(null);
-      // In real implementation, would update the report status
       alert(`Report from ${selectedReport.subcity} has been approved!`);
     }, 2000);
   };
@@ -2827,7 +2861,6 @@ const ReportingStatusDashboard = () => {
       setIsProcessing(false);
       setShowReportDetail(false);
       setSelectedReport(null);
-      // In real implementation, would update the report status with rejection reason
       alert(`Report from ${selectedReport.subcity} has been rejected. Reason: ${reason}`);
     }, 2000);
   };
@@ -2838,6 +2871,15 @@ const ReportingStatusDashboard = () => {
       setSelectedReport(reportData);
       setShowReportDetail(true);
     }
+  };
+
+  // New function for Step 3 - Open historical view
+  const openHistoricalView = (subcity) => {
+    setSelectedSubcityHistory({
+      ...subcity,
+      historicalData: generateHistoricalData(subcity)
+    });
+    setShowHistoryModal(true);
   };
 
   // Filter subcities based on status
@@ -2856,21 +2898,51 @@ const ReportingStatusDashboard = () => {
           <p className="text-blue-100 text-sm sm:text-lg">Monitor and approve environmental reports from all subcities</p>
         </div>
 
-        {/* Controls */}
+        {/* Enhanced Controls with Historical View Toggle */}
         <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between space-y-4 sm:space-y-0">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between space-y-4 lg:space-y-0">
+            
+            {/* View Mode Toggle */}
+            <div className="flex items-center space-x-2">
+              <span className="text-sm font-medium text-slate-700">View Mode:</span>
+              <div className="flex bg-slate-100 rounded-lg p-1">
+                <button
+                  onClick={() => setViewMode('current')}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    viewMode === 'current' 
+                      ? 'bg-blue-500 text-white shadow-sm' 
+                      : 'text-slate-600 hover:text-slate-800'
+                  }`}
+                >
+                  Current Month
+                </button>
+                <button
+                  onClick={() => setViewMode('historical')}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    viewMode === 'historical' 
+                      ? 'bg-blue-500 text-white shadow-sm' 
+                      : 'text-slate-600 hover:text-slate-800'
+                  }`}
+                >
+                  Historical View
+                </button>
+              </div>
+            </div>
+
             <div className="flex items-center space-x-4">
-              <select
-                value={selectedMonth}
-                onChange={(e) => setSelectedMonth(e.target.value)}
-                className="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
-              >
-                {availableMonths.map(month => (
-                  <option key={month.value} value={month.value}>
-                    {month.label}
-                  </option>
-                ))}
-              </select>
+              {viewMode === 'current' && (
+                <select
+                  value={selectedMonth}
+                  onChange={(e) => setSelectedMonth(e.target.value)}
+                  className="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
+                >
+                  {availableMonths.map(month => (
+                    <option key={month.value} value={month.value}>
+                      {month.label}
+                    </option>
+                  ))}
+                </select>
+              )}
 
               <select
                 value={filterStatus}
@@ -2881,49 +2953,254 @@ const ReportingStatusDashboard = () => {
                 <option value="pending">Pending</option>
                 <option value="under_review">Under Review</option>
                 <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
                 <option value="overdue">Overdue</option>
               </select>
             </div>
           </div>
         </div>
 
-        {/* Reports Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-          {filteredSubcities.map(subcity => {
-            const reportStatus = getStatusForMonth(subcity, selectedMonth);
-            return (
-              <div key={subcity.id} className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-bold text-slate-800">{subcity.name}</h3>
-                  <div className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(reportStatus.status)}`}>
-                    {getStatusIcon(reportStatus.status)}
-                    <span className="ml-1">{reportStatus.status.replace('_', ' ').toUpperCase()}</span>
+        {/* Current Month View */}
+        {viewMode === 'current' && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+            {filteredSubcities.map(subcity => {
+              const reportStatus = getStatusForMonth(subcity, selectedMonth);
+              return (
+                <div key={subcity.id} className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-bold text-slate-800">{subcity.name}</h3>
+                    <div className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(reportStatus.status)}`}>
+                      {getStatusIcon(reportStatus.status)}
+                      <span className="ml-1">{reportStatus.status.replace('_', ' ').toUpperCase()}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2 text-sm text-slate-600 mb-4">
+                    <div>Mayor: {subcity.mayor}</div>
+                    {reportStatus.submitted && (
+                      <>
+                        <div>Submitted: {reportStatus.submittedDate}</div>
+                        <div>By: {reportStatus.submittedBy}</div>
+                      </>
+                    )}
+                  </div>
+
+                  <div className="flex space-x-2">
+                    {reportStatus.submitted && (
+                      <button
+                        onClick={() => openReportDetail(subcity, selectedMonth)}
+                        className="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-600 py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
+                      >
+                        <Eye className="w-4 h-4" />
+                        <span>View Details</span>
+                      </button>
+                    )}
+                    
+                    <button
+                      onClick={() => openHistoricalView(subcity)}
+                      className="flex-1 bg-slate-50 hover:bg-slate-100 text-slate-600 py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
+                    >
+                      <Calendar className="w-4 h-4" />
+                      <span>History</span>
+                    </button>
                   </div>
                 </div>
-                
-                <div className="space-y-2 text-sm text-slate-600 mb-4">
-                  <div>Mayor: {subcity.mayor}</div>
-                  {reportStatus.submitted && (
-                    <>
-                      <div>Submitted: {reportStatus.submittedDate}</div>
-                      <div>By: {reportStatus.submittedBy}</div>
-                    </>
-                  )}
-                </div>
+              );
+            })}
+          </div>
+        )}
 
-                {reportStatus.submitted && (
+        {/* Historical View */}
+        {viewMode === 'historical' && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+            {filteredSubcities.map(subcity => {
+              const historicalData = generateHistoricalData(subcity);
+              const approvedCount = historicalData.filter(m => m.status === 'approved').length;
+              const rejectedCount = historicalData.filter(m => m.status === 'rejected').length;
+              const pendingCount = historicalData.filter(m => m.status === 'pending' || m.status === 'under_review').length;
+              
+              return (
+                <div key={subcity.id} className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-bold text-slate-800">{subcity.name}</h3>
+                    <button
+                      onClick={() => openHistoricalView(subcity)}
+                      className="text-blue-600 hover:text-blue-800 transition-colors"
+                    >
+                      <MoreHorizontal className="w-5 h-5" />
+                    </button>
+                  </div>
+                  
+                  <div className="space-y-2 text-sm text-slate-600 mb-4">
+                    <div>Mayor: {subcity.mayor}</div>
+                    <div>Last 6 months performance:</div>
+                  </div>
+
+                  {/* Monthly Timeline */}
+                  <div className="mb-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-xs text-slate-500">Monthly Status</span>
+                      <span className="text-xs text-slate-500">Recent → Old</span>
+                    </div>
+                    <div className="flex space-x-1">
+                      {historicalData.slice(0, 6).map((monthData, index) => (
+                        <div
+                          key={monthData.month}
+                          className={`flex-1 h-8 rounded flex items-center justify-center ${getStatusColor(monthData.status)} transition-all hover:scale-105 cursor-pointer`}
+                          title={`${monthData.monthLabel}: ${monthData.status.replace('_', ' ')}`}
+                        >
+                          <span className="text-xs font-medium">
+                            {monthData.monthLabel.split(' ')[0].slice(0, 3)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Summary Stats */}
+                  <div className="grid grid-cols-3 gap-2 text-center mb-4">
+                    <div className="bg-green-50 rounded-lg p-2">
+                      <p className="text-lg font-bold text-green-700">{approvedCount}</p>
+                      <p className="text-xs text-green-600">Approved</p>
+                    </div>
+                    <div className="bg-red-50 rounded-lg p-2">
+                      <p className="text-lg font-bold text-red-700">{rejectedCount}</p>
+                      <p className="text-xs text-red-600">Rejected</p>
+                    </div>
+                    <div className="bg-yellow-50 rounded-lg p-2">
+                      <p className="text-lg font-bold text-yellow-700">{pendingCount}</p>
+                      <p className="text-xs text-yellow-600">Pending</p>
+                    </div>
+                  </div>
+
+                  {/* Recent Rejection (if any) */}
+                  {rejectedCount > 0 && (
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <AlertCircle className="w-4 h-4 text-red-600" />
+                        <span className="text-sm font-medium text-red-800">Recent Rejection</span>
+                      </div>
+                      {(() => {
+                        const latestRejected = historicalData.find(m => m.status === 'rejected');
+                        return latestRejected ? (
+                          <div className="text-xs text-red-700">
+                            <div className="font-medium">{latestRejected.monthLabel}</div>
+                            <div>{latestRejected.rejectionReason}</div>
+                          </div>
+                        ) : null;
+                      })()}
+                    </div>
+                  )}
+
                   <button
-                    onClick={() => openReportDetail(subcity, selectedMonth)}
-                    className="w-full bg-blue-50 hover:bg-blue-100 text-blue-600 py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
+                    onClick={() => openHistoricalView(subcity)}
+                    className="w-full bg-slate-50 hover:bg-slate-100 text-slate-600 py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
                   >
-                    <Eye className="w-4 h-4" />
-                    <span>View Report Details</span>
+                    <Calendar className="w-4 h-4" />
+                    <span>View Full History</span>
                   </button>
-                )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Historical Details Modal */}
+        {showHistoryModal && selectedSubcityHistory && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
+              {/* Modal Header */}
+              <div className="bg-gradient-to-r from-slate-600 to-slate-700 text-white p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-2xl font-bold">{selectedSubcityHistory.name} - Report History</h3>
+                    <p className="text-slate-200">Complete submission and approval history</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setShowHistoryModal(false);
+                      setSelectedSubcityHistory(null);
+                    }}
+                    className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+                  >
+                    <span className="text-2xl">✕</span>
+                  </button>
+                </div>
               </div>
-            );
-          })}
-        </div>
+
+              {/* Modal Content */}
+              <div className="p-6 overflow-y-auto max-h-[70vh]">
+                <div className="space-y-4">
+                  {selectedSubcityHistory.historicalData.map((monthData, index) => (
+                    <div key={monthData.month} className="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center space-x-3">
+                          <div className="text-2xl">📅</div>
+                          <div>
+                            <h4 className="font-bold text-slate-800">{monthData.monthLabel}</h4>
+                            <p className="text-sm text-slate-600">
+                              {monthData.submitted ? `Submitted: ${monthData.submittedDate}` : 'Not submitted'}
+                            </p>
+                          </div>
+                        </div>
+                        <div className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(monthData.status)}`}>
+                          {getStatusIcon(monthData.status)}
+                          <span className="ml-1">{monthData.status.replace('_', ' ').toUpperCase()}</span>
+                        </div>
+                      </div>
+
+                      {monthData.submittedBy && (
+                        <div className="text-sm text-slate-600 mb-3">
+                          <span className="font-medium">Submitted by:</span> {monthData.submittedBy}
+                        </div>
+                      )}
+
+                      {/* Rejection Details */}
+                      {monthData.status === 'rejected' && monthData.rejectionReason && (
+                        <div className="bg-red-50 border border-red-200 rounded-lg p-4 mt-3">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <AlertCircle className="w-4 h-4 text-red-600" />
+                            <span className="text-sm font-medium text-red-800">Rejection Details</span>
+                          </div>
+                          <div className="text-sm text-red-700 mb-2">
+                            <span className="font-medium">Reason:</span> {monthData.rejectionReason}
+                          </div>
+                          {monthData.rejectionDate && (
+                            <div className="text-xs text-red-600">
+                              <span className="font-medium">Rejected on:</span> {monthData.rejectionDate}
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Action buttons */}
+                      <div className="flex space-x-2 mt-4">
+                        {monthData.submitted && (
+                          <button
+                            onClick={() => {
+                              setShowHistoryModal(false);
+                              openReportDetail(selectedSubcityHistory, monthData.month);
+                            }}
+                            className="bg-blue-50 hover:bg-blue-100 text-blue-600 py-2 px-4 rounded-lg transition-colors flex items-center space-x-2 text-sm"
+                          >
+                            <Eye className="w-4 h-4" />
+                            <span>View Report</span>
+                          </button>
+                        )}
+                        {monthData.status === 'rejected' && (
+                          <button className="bg-orange-50 hover:bg-orange-100 text-orange-600 py-2 px-4 rounded-lg transition-colors flex items-center space-x-2 text-sm">
+                            <RefreshCcw className="w-4 h-4" />
+                            <span>Request Resubmission</span>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Detailed Report View Modal */}
         {showReportDetail && selectedReport && (
@@ -3102,8 +3379,8 @@ const ReportingStatusDashboard = () => {
                             </div>
                             <div className="bg-slate-200 rounded-full h-2">
                               <div 
-                                className={`h-2 rounded-full transition-all duration-500 ${
-                                  item.value >= 90 ? 'bg-red-500' :
+                                className={`h-2 rounded-full ${
+                                  item.value >= 90 ? 'bg-red-500' : 
                                   item.value >= 80 ? 'bg-orange-500' :
                                   item.value >= 70 ? 'bg-yellow-500' : 'bg-green-500'
                                 }`}
