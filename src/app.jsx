@@ -47,9 +47,18 @@ const subcities = [
     population: 450000,
     budget: 2800000,
     budgetUsed: 2380000,
-    area: 61.25,
+    area: 61.25, // km²
     projects: 28,
-    efficiency: 94
+    efficiency: 94,
+    districts: ['Kolfe', 'Keraniyo', 'Sebategna', '18 Mazoria', 'Teklehaymanot'],
+    monthlyReportStatus: {
+      '2025-01': { submitted: true, submittedBy: 'Daniel Mesfin', submittedDate: '2025-01-28', status: 'approved' },
+      '2025-02': { submitted: true, submittedBy: 'Daniel Mesfin', submittedDate: '2025-02-27', status: 'approved' },
+      '2025-03': { submitted: true, submittedBy: 'Daniel Mesfin', submittedDate: '2025-03-29', status: 'approved' },
+      '2025-04': { submitted: true, submittedBy: 'Daniel Mesfin', submittedDate: '2025-04-26', status: 'approved' },
+      '2025-05': { submitted: true, submittedBy: 'Daniel Mesfin', submittedDate: '2025-05-30', status: 'approved' },
+      '2025-06': { submitted: true, submittedBy: 'Daniel Mesfin', submittedDate: '2025-06-28', status: 'pending' }
+    }
   },
   { 
     id: 2, 
@@ -61,9 +70,18 @@ const subcities = [
     population: 380000,
     budget: 2200000,
     budgetUsed: 1870000,
-    area: 85.98,
+    area: 85.98, // km²
     projects: 22,
-    efficiency: 89
+    efficiency: 89,
+    districts: ['Gerji', 'Ayat', 'Hana Mariam', 'Megenagna', 'Bole Michael'],
+    monthlyReportStatus: {
+      '2025-01': { submitted: true, submittedBy: 'Sarah Ahmed', submittedDate: '2025-01-30', status: 'approved' },
+      '2025-02': { submitted: true, submittedBy: 'Sarah Ahmed', submittedDate: '2025-02-28', status: 'approved' },
+      '2025-03': { submitted: true, submittedBy: 'Sarah Ahmed', submittedDate: '2025-03-27', status: 'approved' },
+      '2025-04': { submitted: true, submittedBy: 'Sarah Ahmed', submittedDate: '2025-04-29', status: 'approved' },
+      '2025-05': { submitted: true, submittedBy: 'Sarah Ahmed', submittedDate: '2025-05-31', status: 'approved' },
+      '2025-06': { submitted: false, submittedBy: null, submittedDate: null, status: 'overdue' }
+    }
   },
   { 
     id: 3, 
@@ -75,9 +93,202 @@ const subcities = [
     population: 320000,
     budget: 3500000,
     budgetUsed: 3150000,
-    area: 122.0,
+    area: 122.0, // km²
     projects: 35,
-    efficiency: 96
+    efficiency: 96,
+    districts: ['Bole Airport', 'CMC', 'Wollo Sefer', 'Mexico', 'Sarbet'],
+    monthlyReportStatus: {
+      '2025-01': { submitted: true, submittedBy: 'Michael Tadesse', submittedDate: '2025-01-27', status: 'approved' },
+      '2025-02': { submitted: true, submittedBy: 'Michael Tadesse', submittedDate: '2025-02-26', status: 'approved' },
+      '2025-03': { submitted: true, submittedBy: 'Michael Tadesse', submittedDate: '2025-03-28', status: 'approved' },
+      '2025-04': { submitted: true, submittedBy: 'Michael Tadesse', submittedDate: '2025-04-27', status: 'approved' },
+      '2025-05': { submitted: true, submittedBy: 'Michael Tadesse', submittedDate: '2025-05-29', status: 'approved' },
+      '2025-06': { submitted: true, submittedBy: 'Michael Tadesse', submittedDate: '2025-06-27', status: 'approved' }
+    }
+  },
+  { 
+    id: 4, 
+    name: 'Lideta', 
+    progress: 88, 
+    reports: 12, 
+    status: 'good', 
+    mayor: 'Alemayehu Worku', 
+    population: 290000,
+    budget: 2100000,
+    budgetUsed: 1890000,
+    area: 47.8, // km²
+    projects: 19,
+    efficiency: 91,
+    districts: ['Lideta', 'Stadium', 'Red Terror Memorial', 'Haya Hulet', 'Tewodros Square'],
+    monthlyReportStatus: {
+      '2025-01': { submitted: true, submittedBy: 'Alemayehu Worku', submittedDate: '2025-01-29', status: 'approved' },
+      '2025-02': { submitted: true, submittedBy: 'Alemayehu Worku', submittedDate: '2025-02-28', status: 'approved' },
+      '2025-03': { submitted: true, submittedBy: 'Alemayehu Worku', submittedDate: '2025-03-30', status: 'under_review' },
+      '2025-04': { submitted: true, submittedBy: 'Alemayehu Worku', submittedDate: '2025-04-28', status: 'approved' },
+      '2025-05': { submitted: true, submittedBy: 'Alemayehu Worku', submittedDate: '2025-05-28', status: 'approved' },
+      '2025-06': { submitted: true, submittedBy: 'Alemayehu Worku', submittedDate: '2025-06-30', status: 'pending' }
+    }
+  },
+  { 
+    id: 5, 
+    name: 'Arada', 
+    progress: 91, 
+    reports: 16, 
+    status: 'excellent', 
+    mayor: 'Tigist Bekele', 
+    population: 270000,
+    budget: 2600000,
+    budgetUsed: 2340000,
+    area: 23.4, // km²
+    projects: 24,
+    efficiency: 93,
+    districts: ['Piazza', 'Arat Kilo', 'Sidist Kilo', 'Unity Park', 'Merkato'],
+    monthlyReportStatus: {
+      '2025-01': { submitted: true, submittedBy: 'Tigist Bekele', submittedDate: '2025-01-31', status: 'approved' },
+      '2025-02': { submitted: true, submittedBy: 'Tigist Bekele', submittedDate: '2025-02-27', status: 'approved' },
+      '2025-03': { submitted: true, submittedBy: 'Tigist Bekele', submittedDate: '2025-03-26', status: 'approved' },
+      '2025-04': { submitted: true, submittedBy: 'Tigist Bekele', submittedDate: '2025-04-25', status: 'approved' },
+      '2025-05': { submitted: true, submittedBy: 'Tigist Bekele', submittedDate: '2025-05-27', status: 'approved' },
+      '2025-06': { submitted: true, submittedBy: 'Tigist Bekele', submittedDate: '2025-06-29', status: 'approved' }
+    }
+  },
+  { 
+    id: 6, 
+    name: 'Nifassilk Lafto', 
+    progress: 85, 
+    reports: 11, 
+    status: 'good', 
+    mayor: 'Mulugeta Assefa', 
+    population: 410000,
+    budget: 2400000,
+    budgetUsed: 2050000,
+    area: 68.3, // km²
+    projects: 20,
+    efficiency: 87,
+    districts: ['Lafto', 'Cherkos', 'Gofa', 'Nifas Silk', 'CMC'],
+    monthlyReportStatus: {
+      '2025-01': { submitted: true, submittedBy: 'Mulugeta Assefa', submittedDate: '2025-02-02', status: 'approved' },
+      '2025-02': { submitted: true, submittedBy: 'Mulugeta Assefa', submittedDate: '2025-03-01', status: 'approved' },
+      '2025-03': { submitted: true, submittedBy: 'Mulugeta Assefa', submittedDate: '2025-03-31', status: 'approved' },
+      '2025-04': { submitted: true, submittedBy: 'Mulugeta Assefa', submittedDate: '2025-04-30', status: 'under_review' },
+      '2025-05': { submitted: false, submittedBy: null, submittedDate: null, status: 'overdue' },
+      '2025-06': { submitted: false, submittedBy: null, submittedDate: null, status: 'not_due' }
+    }
+  },
+  { 
+    id: 7, 
+    name: 'Lemi Kura', 
+    progress: 79, 
+    reports: 9, 
+    status: 'needs_improvement', 
+    mayor: 'Getachew Haile', 
+    population: 220000,
+    budget: 1800000,
+    budgetUsed: 1420000,
+    area: 52.7, // km²
+    projects: 15,
+    efficiency: 81,
+    districts: ['Lemi Kura', 'Jemo', 'Summit', 'Tulu Dimtu', 'Bole Arabsa'],
+    monthlyReportStatus: {
+      '2025-01': { submitted: true, submittedBy: 'Getachew Haile', submittedDate: '2025-02-05', status: 'approved' },
+      '2025-02': { submitted: false, submittedBy: null, submittedDate: null, status: 'overdue' },
+      '2025-03': { submitted: true, submittedBy: 'Getachew Haile', submittedDate: '2025-04-02', status: 'under_review' },
+      '2025-04': { submitted: true, submittedBy: 'Getachew Haile', submittedDate: '2025-05-01', status: 'approved' },
+      '2025-05': { submitted: false, submittedBy: null, submittedDate: null, status: 'overdue' },
+      '2025-06': { submitted: false, submittedBy: null, submittedDate: null, status: 'not_due' }
+    }
+  },
+  { 
+    id: 8, 
+    name: 'Gulele', 
+    progress: 89, 
+    reports: 14, 
+    status: 'good', 
+    mayor: 'Rahel Tesfaye', 
+    population: 340000,
+    budget: 2500000,
+    budgetUsed: 2200000,
+    area: 95.6, // km²
+    projects: 26,
+    efficiency: 90,
+    districts: ['Gulele', 'Entoto', 'Saris', 'Addisu Gebeya', 'Shola'],
+    monthlyReportStatus: {
+      '2025-01': { submitted: true, submittedBy: 'Rahel Tesfaye', submittedDate: '2025-01-30', status: 'approved' },
+      '2025-02': { submitted: true, submittedBy: 'Rahel Tesfaye', submittedDate: '2025-02-28', status: 'approved' },
+      '2025-03': { submitted: true, submittedBy: 'Rahel Tesfaye', submittedDate: '2025-03-29', status: 'approved' },
+      '2025-04': { submitted: true, submittedBy: 'Rahel Tesfaye', submittedDate: '2025-04-28', status: 'approved' },
+      '2025-05': { submitted: true, submittedBy: 'Rahel Tesfaye', submittedDate: '2025-05-30', status: 'approved' },
+      '2025-06': { submitted: true, submittedBy: 'Rahel Tesfaye', submittedDate: '2025-06-28', status: 'pending' }
+    }
+  },
+  { 
+    id: 9, 
+    name: 'Addis Ketema', 
+    progress: 83, 
+    reports: 10, 
+    status: 'good', 
+    mayor: 'Bekele Molla', 
+    population: 310000,
+    budget: 2200000,
+    budgetUsed: 1830000,
+    area: 33.2, // km²
+    projects: 18,
+    efficiency: 85,
+    districts: ['Addis Ketema', 'Anwar Mosque', 'Tekle Haymanot', 'Autobus Tera', 'Shiromeda'],
+    monthlyReportStatus: {
+      '2025-01': { submitted: true, submittedBy: 'Bekele Molla', submittedDate: '2025-01-28', status: 'approved' },
+      '2025-02': { submitted: true, submittedBy: 'Bekele Molla', submittedDate: '2025-02-26', status: 'approved' },
+      '2025-03': { submitted: true, submittedBy: 'Bekele Molla', submittedDate: '2025-03-30', status: 'approved' },
+      '2025-04': { submitted: true, submittedBy: 'Bekele Molla', submittedDate: '2025-04-29', status: 'under_review' },
+      '2025-05': { submitted: true, submittedBy: 'Bekele Molla', submittedDate: '2025-05-29', status: 'approved' },
+      '2025-06': { submitted: false, submittedBy: null, submittedDate: null, status: 'overdue' }
+    }
+  },
+  { 
+    id: 10, 
+    name: 'Kirkos', 
+    progress: 86, 
+    reports: 13, 
+    status: 'good', 
+    mayor: 'Hanna Girma', 
+    population: 280000,
+    budget: 2300000,
+    budgetUsed: 1980000,
+    area: 42.1, // km²
+    projects: 21,
+    efficiency: 88,
+    districts: ['Kirkos', 'Meskel Square', 'Tor Hailoch', 'Kality', 'Geja Sefer'],
+    monthlyReportStatus: {
+      '2025-01': { submitted: true, submittedBy: 'Hanna Girma', submittedDate: '2025-01-29', status: 'approved' },
+      '2025-02': { submitted: true, submittedBy: 'Hanna Girma', submittedDate: '2025-02-27', status: 'approved' },
+      '2025-03': { submitted: true, submittedBy: 'Hanna Girma', submittedDate: '2025-03-28', status: 'approved' },
+      '2025-04': { submitted: true, submittedBy: 'Hanna Girma', submittedDate: '2025-04-26', status: 'approved' },
+      '2025-05': { submitted: true, submittedBy: 'Hanna Girma', submittedDate: '2025-05-28', status: 'approved' },
+      '2025-06': { submitted: true, submittedBy: 'Hanna Girma', submittedDate: '2025-06-26', status: 'approved' }
+    }
+  },
+  { 
+    id: 11, 
+    name: 'Akaki Kality', 
+    progress: 77, 
+    reports: 8, 
+    status: 'needs_improvement', 
+    mayor: 'Solomon Kebede', 
+    population: 195000,
+    budget: 1900000,
+    budgetUsed: 1460000,
+    area: 118.4, // km²
+    projects: 14,
+    efficiency: 79,
+    districts: ['Akaki', 'Kality', 'Dukem', 'Sebeta Road', 'Industrial Zone'],
+    monthlyReportStatus: {
+      '2025-01': { submitted: false, submittedBy: null, submittedDate: null, status: 'overdue' },
+      '2025-02': { submitted: true, submittedBy: 'Solomon Kebede', submittedDate: '2025-03-05', status: 'approved' },
+      '2025-03': { submitted: true, submittedBy: 'Solomon Kebede', submittedDate: '2025-04-03', status: 'under_review' },
+      '2025-04': { submitted: false, submittedBy: null, submittedDate: null, status: 'overdue' },
+      '2025-05': { submitted: true, submittedBy: 'Solomon Kebede', submittedDate: '2025-06-02', status: 'pending' },
+      '2025-06': { submitted: false, submittedBy: null, submittedDate: null, status: 'not_due' }
+    }
   }
 ];
 
@@ -262,54 +473,61 @@ const AuthScreen = ({ onLogin }) => {
 };
 
 const DashboardHeader = ({ user, onLogout, currentView, setCurrentView }) => (
-  <div className="bg-white/98 backdrop-blur-xl shadow-lg border-b border-slate-200/50 sticky top-0 z-50">
-    <div className="px-4 sm:px-6 py-3 sm:py-4">
+  <div className="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-50">
+    <div className="p-4 sm:p-6">
       <div className="flex items-center justify-between mb-4 sm:mb-6">
-        <div className="flex items-center space-x-3 sm:space-x-4">
-          <div className="text-2xl sm:text-3xl">{user.avatar}</div>
-          <div className="min-w-0">
-            <h2 className="font-bold text-slate-800 text-lg sm:text-xl truncate">{user.name}</h2>
-            <p className="text-xs sm:text-sm text-slate-600 truncate">{user.role}</p>
-            <p className="text-xs text-slate-500 hidden sm:block">{user.department}</p>
+        <div className="flex items-center space-x-4">
+          <div className="bg-gradient-to-r from-emerald-500 via-blue-500 to-purple-500 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shadow-lg">
+            <Building className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+          </div>
+          <div>
+            <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+              Smart City Environmental Dashboard
+            </h1>
+            <p className="text-slate-600 text-sm sm:text-base">Addis Ababa City Administration</p>
           </div>
         </div>
         
-        <div className="flex items-center space-x-2 sm:space-x-3">
-          <button className="p-2 sm:p-3 hover:bg-slate-100 rounded-xl transition-colors relative">
-            <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-slate-600" />
-            <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></div>
-          </button>
-          <button className="p-2 sm:p-3 hover:bg-slate-100 rounded-xl transition-colors hidden sm:block">
-            <Settings className="w-4 h-4 sm:w-5 sm:h-5 text-slate-600" />
-          </button>
+        <div className="flex items-center space-x-3 sm:space-x-4">
+          <div className="hidden sm:flex items-center space-x-3 bg-slate-50 rounded-2xl p-3">
+            <div className="text-2xl">{user.avatar}</div>
+            <div className="text-right">
+              <p className="font-semibold text-slate-800 text-sm">{user.name}</p>
+              <p className="text-xs text-slate-600">{user.role}</p>
+            </div>
+          </div>
+          
           <button
             onClick={onLogout}
-            className="p-2 sm:p-3 hover:bg-red-50 text-red-600 rounded-xl transition-colors"
+            className="flex items-center space-x-2 bg-red-500 hover:bg-red-600 text-white px-3 sm:px-4 py-2 rounded-xl transition-all text-sm font-medium shadow-md"
           >
-            <LogOut className="w-4 h-4 sm:w-5 sm:h-5" />
+            <LogOut className="w-4 h-4" />
+            <span className="hidden sm:inline">Logout</span>
           </button>
         </div>
       </div>
       
-      <div className="flex space-x-1 bg-slate-100 rounded-xl p-1 overflow-x-auto">
+      {/* Navigation */}
+      <div className="flex flex-wrap gap-2 sm:gap-3">
         {[
-          { id: 'dashboard', label: 'Dashboard', icon: Home },
-          { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+          { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
+          { id: 'analytics', label: 'Analytics', icon: PieChart },
+          { id: 'reporting_status', label: 'Report Status', icon: FileText },  // Add this new menu item
           { id: 'reports', label: 'Reports', icon: FileText },
-          { id: 'gallery', label: 'Gallery', icon: Camera },
-          { id: 'maps', label: 'Maps', icon: Map }
-        ].map(tab => (
+          { id: 'maps', label: 'Maps', icon: Map },
+          { id: 'gallery', label: 'Gallery', icon: Camera }
+        ].map(item => (
           <button
-            key={tab.id}
-            onClick={() => setCurrentView(tab.id)}
-            className={`flex-shrink-0 flex items-center justify-center space-x-1 sm:space-x-2 py-2 sm:py-3 px-3 sm:px-4 rounded-lg transition-all text-xs sm:text-sm font-medium ${
-              currentView === tab.id 
-                ? 'bg-white text-blue-600 shadow-sm border border-blue-100' 
-                : 'text-slate-600 hover:text-slate-800 hover:bg-white/50'
+            key={item.id}
+            onClick={() => setCurrentView(item.id)}
+            className={`flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-xl transition-all text-sm font-medium ${
+              currentView === item.id
+                ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-lg'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
-            <tab.icon className="w-3 h-3 sm:w-4 sm:h-4" />
-            <span className="hidden sm:inline">{tab.label}</span>
+            <item.icon className="w-4 h-4" />
+            <span className="hidden sm:inline">{item.label}</span>
           </button>
         ))}
       </div>
@@ -950,15 +1168,15 @@ const Analytics = () => {
   };
 
   const getTotalPlantCost = () => {
-    return plantSpecies.reduce((total, plant) => total + (plant.unitCost * plant.plantedCount), 0);
+    return currentData.plantSpecies.reduce((total, plant) => total + (plant.unitCost * plant.plantedCount), 0);
   };
 
   const getTotalTreesPlanted = () => {
-    return plantSpecies.reduce((total, plant) => total + plant.plantedCount, 0);
+    return currentData.plantSpecies.reduce((total, plant) => total + plant.plantedCount, 0);
   };
 
   const getAverageSurvivalRate = () => {
-    return Math.round(plantSpecies.reduce((total, plant) => total + plant.survivalRate, 0) / plantSpecies.length);
+    return Math.round(currentData.plantSpecies.reduce((total, plant) => total + plant.survivalRate, 0) / currentData.plantSpecies.length);
   };
 
   return (
@@ -2019,6 +2237,7 @@ const InteractiveMaps = () => {
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   className="rounded-t-2xl"
+                  title="Addis Ababa Environmental Projects Map"
                 ></iframe>
                 
                 {/* Overlay controls */}
@@ -2436,6 +2655,245 @@ const SubcityDetailedView = ({ subcity, onBack }) => {
   );
 };
 
+const ReportingStatusDashboard = () => {
+  const [selectedMonth, setSelectedMonth] = useState('2025-06');
+  const [filterStatus, setFilterStatus] = useState('all');
+
+  // Generate available months (last 6 months)
+  const getAvailableMonths = () => {
+    const months = [];
+    for (let i = 0; i < 6; i++) {
+      const date = new Date();
+      date.setMonth(date.getMonth() - i);
+      const monthStr = date.toISOString().slice(0, 7);
+      const monthName = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+      months.push({ value: monthStr, label: monthName });
+    }
+    return months;
+  };
+
+  const availableMonths = getAvailableMonths();
+
+  // Get status for a specific month
+  const getStatusForMonth = (subcity, month) => {
+    return subcity.monthlyReportStatus[month] || { submitted: false, status: 'not_due' };
+  };
+
+  // Status colors and labels
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'approved': return 'bg-green-100 text-green-800 border-green-300';
+      case 'pending': return 'bg-yellow-100 text-yellow-800 border-yellow-300';
+      case 'under_review': return 'bg-blue-100 text-blue-800 border-blue-300';
+      case 'overdue': return 'bg-red-100 text-red-800 border-red-300';
+      case 'not_due': return 'bg-gray-100 text-gray-800 border-gray-300';
+      default: return 'bg-slate-100 text-slate-800 border-slate-300';
+    }
+  };
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'approved': return <CheckCircle className="w-4 h-4" />;
+      case 'pending': return <AlertCircle className="w-4 h-4" />;
+      case 'under_review': return <Eye className="w-4 h-4" />;
+      case 'overdue': return <AlertCircle className="w-4 h-4" />;
+      default: return <FileText className="w-4 h-4" />;
+    }
+  };
+
+  // Filter subcities based on status
+  const filteredSubcities = subcities.filter(subcity => {
+    if (filterStatus === 'all') return true;
+    const status = getStatusForMonth(subcity, selectedMonth);
+    return status.status === filterStatus;
+  });
+
+  // Calculate statistics
+  const stats = {
+    total: subcities.length,
+    submitted: subcities.filter(s => getStatusForMonth(s, selectedMonth).submitted).length,
+    approved: subcities.filter(s => getStatusForMonth(s, selectedMonth).status === 'approved').length,
+    overdue: subcities.filter(s => getStatusForMonth(s, selectedMonth).status === 'overdue').length,
+    pending: subcities.filter(s => getStatusForMonth(s, selectedMonth).status === 'pending').length
+  };
+
+  return (
+    <div className="bg-gradient-to-br from-indigo-50 to-purple-50 min-h-screen">
+      <div className="p-4 sm:p-6 space-y-6">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-6 sm:p-8 text-white shadow-lg">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-bold mb-2">Monthly Reporting Status</h2>
+              <p className="text-indigo-100 text-sm sm:text-lg">Track monthly environmental report submissions across all subcities</p>
+            </div>
+            <div className="hidden sm:block">
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                <FileText className="w-8 h-8 text-white mb-2" />
+                <p className="text-xs text-indigo-200">Report Tracking</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Controls */}
+        <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between space-y-4 sm:space-y-0">
+            <div className="flex items-center space-x-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Select Month</label>
+                <select
+                  value={selectedMonth}
+                  onChange={(e) => setSelectedMonth(e.target.value)}
+                  className="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                >
+                  {availableMonths.map(month => (
+                    <option key={month.value} value={month.value}>
+                      {month.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Filter Status</label>
+                <select
+                  value={filterStatus}
+                  onChange={(e) => setFilterStatus(e.target.value)}
+                  className="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                >
+                  <option value="all">All Status</option>
+                  <option value="approved">Approved</option>
+                  <option value="pending">Pending</option>
+                  <option value="under_review">Under Review</option>
+                  <option value="overdue">Overdue</option>
+                  <option value="not_due">Not Due</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Statistics */}
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
+          <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-slate-200">
+            <div className="text-center">
+              <p className="text-2xl sm:text-3xl font-bold text-slate-600">{stats.total}</p>
+              <p className="text-slate-600 text-sm">Total Subcities</p>
+            </div>
+          </div>
+          <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-blue-200">
+            <div className="text-center">
+              <p className="text-2xl sm:text-3xl font-bold text-blue-600">{stats.submitted}</p>
+              <p className="text-slate-600 text-sm">Submitted</p>
+            </div>
+          </div>
+          <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-green-200">
+            <div className="text-center">
+              <p className="text-2xl sm:text-3xl font-bold text-green-600">{stats.approved}</p>
+              <p className="text-slate-600 text-sm">Approved</p>
+            </div>
+          </div>
+          <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-yellow-200">
+            <div className="text-center">
+              <p className="text-2xl sm:text-3xl font-bold text-yellow-600">{stats.pending}</p>
+              <p className="text-slate-600 text-sm">Pending</p>
+            </div>
+          </div>
+          <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-red-200">
+            <div className="text-center">
+              <p className="text-2xl sm:text-3xl font-bold text-red-600">{stats.overdue}</p>
+              <p className="text-slate-600 text-sm">Overdue</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Subcity Reports Table */}
+        <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-slate-100">
+          <h3 className="text-xl font-bold text-slate-800 mb-6">
+            {availableMonths.find(m => m.value === selectedMonth)?.label} Report Status
+          </h3>
+          
+          <div className="space-y-4">
+            {filteredSubcities.map(subcity => {
+              const reportStatus = getStatusForMonth(subcity, selectedMonth);
+              return (
+                <div key={subcity.id} className="p-4 sm:p-6 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4 flex-1">
+                      <div className="flex-shrink-0">
+                        <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                          subcity.progress > 85 ? 'bg-green-100' :
+                          subcity.progress > 70 ? 'bg-yellow-100' : 'bg-red-100'
+                        }`}>
+                          <span className="text-sm font-bold">
+                            {subcity.progress}%
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <div className="min-w-0 flex-1">
+                        <h4 className="font-bold text-slate-800 text-lg">{subcity.name}</h4>
+                        <p className="text-sm text-slate-600">Mayor: {subcity.mayor}</p>
+                        {reportStatus.submitted && (
+                          <div className="text-xs text-slate-500 mt-1">
+                            Submitted: {reportStatus.submittedDate} by {reportStatus.submittedBy}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-4">
+                      <div className={`flex items-center space-x-2 px-3 py-2 rounded-full border ${getStatusColor(reportStatus.status)}`}>
+                        {getStatusIcon(reportStatus.status)}
+                        <span className="text-sm font-medium capitalize">
+                          {reportStatus.status.replace('_', ' ')}
+                        </span>
+                      </div>
+                      
+                      {reportStatus.submitted && (
+                        <button className="p-2 hover:bg-slate-200 rounded-lg transition-colors">
+                          <Download className="w-4 h-4 text-slate-600" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {filteredSubcities.length === 0 && (
+            <div className="text-center py-12">
+              <FileText className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-slate-600 mb-2">No Reports Found</h3>
+              <p className="text-slate-500">No subcities match the selected filter criteria.</p>
+            </div>
+          )}
+        </div>
+
+        {/* Action Items */}
+        {stats.overdue > 0 && (
+          <div className="bg-red-50 border border-red-200 rounded-2xl p-6 sm:p-8">
+            <div className="flex items-start space-x-4">
+              <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0 mt-1" />
+              <div>
+                <h3 className="text-lg font-bold text-red-800 mb-2">Action Required</h3>
+                <p className="text-red-700 mb-4">
+                  {stats.overdue} subcit{stats.overdue === 1 ? 'y has' : 'ies have'} overdue reports for {availableMonths.find(m => m.value === selectedMonth)?.label}.
+                </p>
+                <button className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-sm font-medium">
+                  Send Reminder Notifications
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const App = () => {
   const [user, setUser] = useState(null);
   const [currentView, setCurrentView] = useState('dashboard');
@@ -2472,30 +2930,27 @@ const App = () => {
   const renderContent = () => {
     switch (currentView) {
       case 'dashboard':
-        return user.type === 'city' ? (
-          <CityMayorDashboard user={user} onSelectSubcity={handleSelectSubcity} />
-        ) : (
-          <SubcityMayorDashboard user={user} />
-        );
-      case 'detailed':
-        return <SubcityDetailedView 
-          subcity={selectedSubcity} 
-          onBack={() => setCurrentView('dashboard')} 
-        />;
+        return user.type === 'city' 
+          ? <CityMayorDashboard user={user} onSelectSubcity={handleSelectSubcity} />
+          : <SubcityMayorDashboard user={user} />;
       case 'analytics':
         return <Analytics />;
       case 'reports':
         return <ReportsManagement />;
-      case 'gallery':
-        return <Gallery />;
       case 'maps':
         return <InteractiveMaps />;
+      case 'gallery':
+        return <Gallery />;
+      case 'reporting_status':  // Add this new case
+        return <ReportingStatusDashboard />;
+      case 'detailed':
+        return selectedSubcity ? 
+          <SubcityDetailedView subcity={selectedSubcity} onBack={() => setCurrentView('dashboard')} /> :
+          <CityMayorDashboard user={user} onSelectSubcity={handleSelectSubcity} />;
       default:
-        return user.type === 'city' ? (
-          <CityMayorDashboard user={user} onSelectSubcity={handleSelectSubcity} />
-        ) : (
-          <SubcityMayorDashboard user={user} />
-        );
+        return user.type === 'city' 
+          ? <CityMayorDashboard user={user} onSelectSubcity={handleSelectSubcity} />
+          : <SubcityMayorDashboard user={user} />;
     }
   };
 
