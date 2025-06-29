@@ -2656,6 +2656,129 @@ const SubcityDetailedView = ({ subcity, onBack }) => {
   );
 };
 
+// Add this component before the ReportingStatusDashboard component
+
+const SimilarityComparisonRow = ({ comparison, getSimilarityColor }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <div className="bg-white rounded-lg border border-orange-200 overflow-hidden">
+      {/* Collapsed Row - Summary View */}
+      <div 
+        className="p-3 cursor-pointer hover:bg-orange-50 transition-colors"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2">
+              <ChevronRight className={`w-4 h-4 text-slate-500 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
+              <span className="text-sm font-medium text-slate-800">{comparison.monthLabel}</span>
+            </div>
+            <div className="text-xs text-slate-500">
+              by {comparison.reportedBy}
+            </div>
+          </div>
+          
+          <div className="flex items-center space-x-3">
+            <div className="text-right">
+              <div className={`text-sm font-bold ${getSimilarityColor(comparison.overallSimilarity)}`}>
+                {comparison.overallSimilarity}%
+              </div>
+              <div className="text-xs text-slate-500">similarity</div>
+            </div>
+            
+            {/* Risk indicator */}
+            <div className={`w-3 h-3 rounded-full ${
+              comparison.overallSimilarity >= 80 ? 'bg-red-500' :
+              comparison.overallSimilarity >= 60 ? 'bg-yellow-500' : 'bg-green-500'
+            }`} title={`${comparison.overallSimilarity}% similarity`}></div>
+          </div>
+        </div>
+      </div>
+
+      {/* Expanded Row - Detailed View */}
+      {isExpanded && (
+        <div className="border-t border-orange-200 p-4 bg-orange-25">
+          <div className="space-y-4">
+            
+            {/* Report Metadata */}
+            <div className="grid grid-cols-2 gap-4 text-xs text-slate-600">
+              <div>
+                <span className="font-medium">Submitted:</span> {comparison.submittedDate}
+              </div>
+              <div>
+                <span className="font-medium">Reported by:</span> {comparison.reportedBy}
+              </div>
+            </div>
+
+            {/* Detailed Similarity Breakdown */}
+            <div className="space-y-3">
+              <h6 className="font-semibold text-slate-700 text-sm">Detailed Comparison:</h6>
+              
+              {[
+                { label: "Data Consistency", value: comparison.dataConsistency, icon: "📊" },
+                { label: "Photo Similarity", value: comparison.photoSimilarity, icon: "📷" },
+                { label: "Description Similarity", value: comparison.descriptionSimilarity, icon: "📝" }
+              ].map((item, index) => (
+                <div key={index} className="bg-white rounded-lg p-3 border border-orange-100">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-sm">{item.icon}</span>
+                      <span className="text-xs font-medium text-slate-700">{item.label}</span>
+                    </div>
+                    <span className={`text-xs font-bold ${getSimilarityColor(item.value)}`}>
+                      {item.value}%
+                    </span>
+                  </div>
+                  <div className="bg-slate-200 rounded-full h-1.5">
+                    <div 
+                      className={`h-1.5 rounded-full ${
+                        item.value >= 90 ? 'bg-red-500' : 
+                        item.value >= 80 ? 'bg-orange-500' :
+                        item.value >= 70 ? 'bg-yellow-500' : 'bg-green-500'
+                      }`}
+                      style={{ width: `${item.value}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Flagged Items for this comparison */}
+            {comparison.flaggedItems && comparison.flaggedItems.length > 0 && (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+                <h6 className="font-semibold text-red-800 text-sm mb-2 flex items-center">
+                  <AlertCircle className="w-3 h-3 mr-1" />
+                  Flagged Issues ({comparison.flaggedItems.length})
+                </h6>
+                <ul className="space-y-1">
+                  {comparison.flaggedItems.map((item, index) => (
+                    <li key={index} className="text-xs text-red-700 flex items-start">
+                      <span className="text-red-500 mr-1 mt-0.5">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Quick Actions */}
+            <div className="flex space-x-2 pt-2 border-t border-orange-200">
+              <button className="text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-3 py-1 rounded-lg transition-colors flex items-center space-x-1">
+                <Eye className="w-3 h-3" />
+                <span>View Original Report</span>
+              </button>
+              <button className="text-xs bg-orange-50 hover:bg-orange-100 text-orange-600 px-3 py-1 rounded-lg transition-colors flex items-center space-x-1">
+                <Download className="w-3 h-3" />
+                <span>Download Comparison</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 const ReportingStatusDashboard = () => {
   const [selectedMonth, setSelectedMonth] = useState('2025-06');
   const [filterStatus, setFilterStatus] = useState('all');
@@ -2665,7 +2788,7 @@ const ReportingStatusDashboard = () => {
   const [rejectionReason, setRejectionReason] = useState('');
   const [showRejectModal, setShowRejectModal] = useState(false);
   
-  // New state for Step 3 - Historical View
+  // State for Step 3 - Historical View
   const [viewMode, setViewMode] = useState('current'); // 'current' or 'historical'
   const [selectedSubcityHistory, setSelectedSubcityHistory] = useState(null);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
@@ -2698,10 +2821,35 @@ const ReportingStatusDashboard = () => {
     });
   };
 
-  // Generate sample report data with attachments and content
+  // Generate sample report data with enhanced multi-month similarity analysis
   const generateReportData = (subcity, month) => {
     const reportStatus = getStatusForMonth(subcity, month);
     if (!reportStatus.submitted) return null;
+
+    // Generate historical similarity data for previous months
+    const generateHistoricalSimilarityData = () => {
+      const months = getAvailableMonths().filter(m => m.value !== month).slice(0, 4); // Get 4 previous months
+      return months.map(prevMonth => {
+        const prevStatus = getStatusForMonth(subcity, prevMonth.value);
+        if (!prevStatus.submitted) return null;
+        
+        return {
+          month: prevMonth.value,
+          monthLabel: prevMonth.label,
+          reportedBy: prevStatus.submittedBy,
+          submittedDate: prevStatus.submittedDate,
+          overallSimilarity: Math.floor(Math.random() * 60) + 30, // 30-90%
+          dataConsistency: Math.floor(Math.random() * 50) + 40,
+          photoSimilarity: Math.floor(Math.random() * 70) + 20,
+          descriptionSimilarity: Math.floor(Math.random() * 80) + 15,
+          flaggedItems: Math.random() > 0.6 ? [
+            `${Math.floor(Math.random() * 3) + 1} identical budget line items`,
+            `${Math.floor(Math.random() * 5) + 2} similar photo compositions`,
+            'Repeated phrases in project descriptions'
+          ].slice(0, Math.floor(Math.random() * 3) + 1) : []
+        };
+      }).filter(Boolean);
+    };
 
     return {
       id: `${subcity.id}-${month}`,
@@ -2748,17 +2896,21 @@ const ReportingStatusDashboard = () => {
         }
       ],
       
-      // Similarity analysis compared to previous reports
+      // Enhanced similarity analysis with historical comparison
       similarityAnalysis: {
-        overallSimilarity: Math.floor(Math.random() * 40) + 60, // 60-100%
-        dataConsistency: Math.floor(Math.random() * 30) + 70,
-        photoSimilarity: Math.floor(Math.random() * 50) + 50,
-        descriptionSimilarity: Math.floor(Math.random() * 60) + 40,
-        flaggedItems: Math.random() > 0.7 ? [
-          'Budget figures match exactly with previous month',
-          'Photo metadata suggests same capture date',
-          'Description text has 85% similarity to previous report'
-        ] : []
+        currentOverallSimilarity: Math.floor(Math.random() * 40) + 60, // 60-100%
+        historicalComparisons: generateHistoricalSimilarityData(),
+        // Current detailed analysis (for expanded view)
+        detailedAnalysis: {
+          dataConsistency: Math.floor(Math.random() * 30) + 70,
+          photoSimilarity: Math.floor(Math.random() * 50) + 50,
+          descriptionSimilarity: Math.floor(Math.random() * 60) + 40,
+          flaggedItems: Math.random() > 0.7 ? [
+            'Budget figures match exactly with previous month',
+            'Photo metadata suggests same capture date',
+            'Description text has 85% similarity to previous report'
+          ] : []
+        }
       },
       
       // Rejection history if applicable
@@ -2873,7 +3025,7 @@ const ReportingStatusDashboard = () => {
     }
   };
 
-  // New function for Step 3 - Open historical view
+  // Function for Step 3 - Open historical view
   const openHistoricalView = (subcity) => {
     setSelectedSubcityHistory({
       ...subcity,
@@ -3202,7 +3354,7 @@ const ReportingStatusDashboard = () => {
           </div>
         )}
 
-        {/* Detailed Report View Modal */}
+        {/* Enhanced Detailed Report View Modal with Multi-Month Similarity Analysis */}
         {showReportDetail && selectedReport && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
             <div className="bg-white rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
@@ -3307,137 +3459,124 @@ const ReportingStatusDashboard = () => {
                     )}
                   </div>
 
-                  {/* Right Column - Similarity Analysis */}
+                  {/* Right Column - Enhanced Multi-Month Similarity Analysis */}
                   <div className="space-y-6">
                     
-                    {/* Similarity Analysis Visualizer */}
+                    {/* Multi-Month Similarity Analysis */}
                     <div className="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200 rounded-xl p-4">
                       <h4 className="font-bold text-orange-800 mb-4 flex items-center">
                         <Activity className="w-5 h-5 mr-2" />
-                        Similarity Analysis
+                        Historical Similarity Analysis
                       </h4>
                       
-                      {/* Overall Similarity Score */}
-                      <div className="mb-6 text-center">
-                        <div className="relative w-32 h-32 mx-auto mb-3">
-                          <svg className="w-32 h-32 transform -rotate-90" viewBox="0 0 36 36">
-                            <path
-                              d="M18 2.0845
-                                a 15.9155 15.9155 0 0 1 0 31.831
-                                a 15.9155 15.9155 0 0 1 0 -31.831"
-                              fill="none"
-                              stroke="#e5e7eb"
-                              strokeWidth="2"
-                            />
-                            <path
-                              d="M18 2.0845
-                                a 15.9155 15.9155 0 0 1 0 31.831
-                                a 15.9155 15.9155 0 0 1 0 -31.831"
-                              fill="none"
-                              stroke={selectedReport.similarityAnalysis.overallSimilarity >= 90 ? "#dc2626" : 
-                                     selectedReport.similarityAnalysis.overallSimilarity >= 80 ? "#ea580c" :
-                                     selectedReport.similarityAnalysis.overallSimilarity >= 70 ? "#d97706" : "#059669"}
-                              strokeWidth="2"
-                              strokeDasharray={`${selectedReport.similarityAnalysis.overallSimilarity}, 100`}
-                            />
-                          </svg>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="text-center">
-                              <div className={`text-2xl font-bold ${getSimilarityColor(selectedReport.similarityAnalysis.overallSimilarity)}`}>
-                                {selectedReport.similarityAnalysis.overallSimilarity}%
-                              </div>
-                              <div className="text-xs text-slate-600">Overall</div>
-                            </div>
-                          </div>
+                      {/* Historical Comparisons Table */}
+                      <div className="space-y-3 mb-6">
+                        <div className="flex items-center justify-between">
+                          <h5 className="font-semibold text-slate-700 text-sm">Comparison with Previous Reports</h5>
+                          <span className="text-xs text-slate-500">Click to expand details</span>
                         </div>
                         
-                        <div className="text-sm text-slate-600">
-                          {selectedReport.similarityAnalysis.overallSimilarity >= 90 ? "🚨 Very High Similarity" :
-                           selectedReport.similarityAnalysis.overallSimilarity >= 80 ? "⚠️ High Similarity" :
-                           selectedReport.similarityAnalysis.overallSimilarity >= 70 ? "⚡ Moderate Similarity" : "✅ Acceptable Similarity"}
-                        </div>
-                      </div>
-
-                      {/* Detailed Similarity Breakdown */}
-                      <div className="space-y-4">
-                        <h5 className="font-semibold text-slate-700">Detailed Analysis:</h5>
-                        
-                        {[
-                          { label: "Data Consistency", value: selectedReport.similarityAnalysis.dataConsistency, icon: "📊" },
-                          { label: "Photo Similarity", value: selectedReport.similarityAnalysis.photoSimilarity, icon: "📷" },
-                          { label: "Description Similarity", value: selectedReport.similarityAnalysis.descriptionSimilarity, icon: "📝" }
-                        ].map((item, index) => (
-                          <div key={index} className="bg-white rounded-lg p-3 border border-orange-200">
-                            <div className="flex items-center justify-between mb-2">
-                              <div className="flex items-center space-x-2">
-                                <span className="text-lg">{item.icon}</span>
-                                <span className="text-sm font-medium text-slate-700">{item.label}</span>
-                              </div>
-                              <span className={`text-sm font-bold ${getSimilarityColor(item.value)}`}>
-                                {item.value}%
-                              </span>
-                            </div>
-                            <div className="bg-slate-200 rounded-full h-2">
-                              <div 
-                                className={`h-2 rounded-full ${
-                                  item.value >= 90 ? 'bg-red-500' : 
-                                  item.value >= 80 ? 'bg-orange-500' :
-                                  item.value >= 70 ? 'bg-yellow-500' : 'bg-green-500'
-                                }`}
-                                style={{ width: `${item.value}%` }}
+                        {selectedReport.similarityAnalysis.historicalComparisons.length > 0 ? (
+                          <div className="space-y-2">
+                            {selectedReport.similarityAnalysis.historicalComparisons.map((comparison, index) => (
+                              <SimilarityComparisonRow 
+                                key={comparison.month} 
+                                comparison={comparison} 
+                                getSimilarityColor={getSimilarityColor}
                               />
-                            </div>
+                            ))}
                           </div>
-                        ))}
+                        ) : (
+                          <div className="bg-white rounded-lg p-4 text-center border border-orange-200">
+                            <p className="text-sm text-slate-600">No previous reports available for comparison</p>
+                          </div>
+                        )}
                       </div>
 
-                      {/* Flagged Items */}
-                      {selectedReport.similarityAnalysis.flaggedItems.length > 0 && (
-                        <div className="mt-6 bg-red-100 border border-red-300 rounded-lg p-3">
-                          <h5 className="font-semibold text-red-800 mb-2 flex items-center">
-                            <AlertCircle className="w-4 h-4 mr-2" />
-                            Flagged Issues ({selectedReport.similarityAnalysis.flaggedItems.length})
-                          </h5>
-                          <ul className="space-y-1">
-                            {selectedReport.similarityAnalysis.flaggedItems.map((item, index) => (
-                              <li key={index} className="text-sm text-red-700 flex items-start space-x-2">
-                                <span className="text-red-500 mt-0.5">•</span>
-                                <span>{item}</span>
-                              </li>
-                            ))}
-                          </ul>
+                      {/* Current Report Overall Score */}
+                      <div className="bg-white rounded-xl p-4 border border-orange-200">
+                        <div className="text-center mb-4">
+                          <h5 className="font-semibold text-slate-700 mb-2">Current Report Overall Score</h5>
+                          <div className="relative w-24 h-24 mx-auto mb-3">
+                            <svg className="w-24 h-24 transform -rotate-90" viewBox="0 0 36 36">
+                              <path
+                                d="M18 2.0845
+                                  a 15.9155 15.9155 0 0 1 0 31.831
+                                  a 15.9155 15.9155 0 0 1 0 -31.831"
+                                fill="none"
+                                stroke="#e5e7eb"
+                                strokeWidth="2"
+                              />
+                              <path
+                                d="M18 2.0845
+                                  a 15.9155 15.9155 0 0 1 0 31.831
+                                  a 15.9155 15.9155 0 0 1 0 -31.831"
+                                fill="none"
+                                stroke={selectedReport.similarityAnalysis.currentOverallSimilarity >= 90 ? "#dc2626" : 
+                                       selectedReport.similarityAnalysis.currentOverallSimilarity >= 80 ? "#ea580c" :
+                                       selectedReport.similarityAnalysis.currentOverallSimilarity >= 70 ? "#d97706" : "#059669"}
+                                strokeWidth="2"
+                                strokeDasharray={`${selectedReport.similarityAnalysis.currentOverallSimilarity}, 100`}
+                              />
+                            </svg>
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="text-center">
+                                <div className={`text-xl font-bold ${getSimilarityColor(selectedReport.similarityAnalysis.currentOverallSimilarity)}`}>
+                                  {selectedReport.similarityAnalysis.currentOverallSimilarity}%
+                                </div>
+                                <div className="text-xs text-slate-600">Avg</div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="text-sm text-slate-600">
+                            {selectedReport.similarityAnalysis.currentOverallSimilarity >= 90 ? "🚨 Very High Similarity" :
+                             selectedReport.similarityAnalysis.currentOverallSimilarity >= 80 ? "⚠️ High Similarity" :
+                             selectedReport.similarityAnalysis.currentOverallSimilarity >= 70 ? "⚡ Moderate Similarity" : "✅ Acceptable Similarity"}
+                          </div>
                         </div>
-                      )}
+                      </div>
                     </div>
 
-                    {/* AI Recommendation */}
+                    {/* AI Recommendation based on historical analysis */}
                     <div className="bg-purple-50 border border-purple-200 rounded-xl p-4">
                       <h4 className="font-bold text-purple-800 mb-3 flex items-center">
                         <Sparkles className="w-5 h-5 mr-2" />
-                        AI Recommendation
+                        AI Historical Analysis
                       </h4>
                       <div className="text-sm text-purple-700">
-                        {selectedReport.similarityAnalysis.overallSimilarity >= 90 ? (
-                          <div className="space-y-2">
-                            <p className="font-medium">⚠️ <strong>High Risk:</strong> This report shows very high similarity to previous submissions.</p>
-                            <p><strong>Recommended Action:</strong> Request clarification and additional documentation before approval.</p>
-                          </div>
-                        ) : selectedReport.similarityAnalysis.overallSimilarity >= 80 ? (
-                          <div className="space-y-2">
-                            <p className="font-medium">🔍 <strong>Review Required:</strong> Some elements appear similar to previous reports.</p>
-                            <p><strong>Recommended Action:</strong> Verify the flagged items and consider requesting additional evidence.</p>
-                          </div>
-                        ) : selectedReport.similarityAnalysis.overallSimilarity >= 70 ? (
-                          <div className="space-y-2">
-                            <p className="font-medium">✅ <strong>Acceptable:</strong> Report shows reasonable variation from previous submissions.</p>
-                            <p><strong>Recommended Action:</strong> Standard review process can proceed.</p>
-                          </div>
-                        ) : (
-                          <div className="space-y-2">
-                            <p className="font-medium">🎯 <strong>Excellent:</strong> Report demonstrates good originality and unique content.</p>
-                            <p><strong>Recommended Action:</strong> Fast-track approval recommended.</p>
-                          </div>
-                        )}
+                        {(() => {
+                          const avgSimilarity = selectedReport.similarityAnalysis.historicalComparisons.length > 0 
+                            ? selectedReport.similarityAnalysis.historicalComparisons.reduce((sum, comp) => sum + comp.overallSimilarity, 0) / selectedReport.similarityAnalysis.historicalComparisons.length 
+                            : 0;
+                          const trendingUp = selectedReport.similarityAnalysis.currentOverallSimilarity > avgSimilarity;
+                          
+                          if (avgSimilarity >= 80) {
+                            return (
+                              <div className="space-y-2">
+                                <p className="font-medium">🔍 <strong>Pattern Detected:</strong> This subcity shows consistently high similarity scores across multiple months.</p>
+                                <p><strong>Recommendation:</strong> Schedule a comprehensive review of reporting processes and require additional documentation.</p>
+                                <div className="bg-purple-100 rounded-lg p-2 mt-2">
+                                  <p className="text-xs">📊 <strong>Trend:</strong> {trendingUp ? 'Increasing' : 'Decreasing'} similarity trend detected</p>
+                                </div>
+                              </div>
+                            );
+                          } else if (avgSimilarity >= 60) {
+                            return (
+                              <div className="space-y-2">
+                                <p className="font-medium">📈 <strong>Moderate Consistency:</strong> Reports show some recurring patterns but within acceptable range.</p>
+                                <p><strong>Recommendation:</strong> Monitor for the next 2 months and provide guidance on report diversification.</p>
+                              </div>
+                            );
+                          } else {
+                            return (
+                              <div className="space-y-2">
+                                <p className="font-medium">✅ <strong>Good Variation:</strong> Reports demonstrate healthy diversity across reporting periods.</p>
+                                <p><strong>Recommendation:</strong> Current reporting quality is excellent. Continue standard review process.</p>
+                              </div>
+                            );
+                          }
+                        })()}
                       </div>
                     </div>
                   </div>
